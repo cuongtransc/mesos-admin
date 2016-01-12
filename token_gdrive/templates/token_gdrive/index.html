@@ -1,0 +1,59 @@
+{% extends 'default/base.html' %}
+
+      {% block title %}Token for google drive{% endblock %}
+      {% block script %}
+        <script>
+            toastr.options = {
+              "closeButton": false,
+              "debug": false,
+              "newestOnTop": false,
+              "progressBar": false,
+              "positionClass": "toast-top-right",
+              "preventDuplicates": false,
+              "onclick": null,
+              "showDuration": "300",
+              "hideDuration": "1000",
+              "timeOut": "5000",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
+            }
+
+
+            $( document ).ready(function() {
+                $("#submit").click(function(){
+                    var token = $("#token-gdrive").val()
+                    var gmail = $("#gmail").val()
+                    $.get("add_token",
+                    {
+                        "token": token,
+                        "gmail": gmail
+                    },
+                    function(data, status){
+                        toastr["success"]("Add token "+token+" success");
+                    });
+                });
+
+            });
+
+        </script>
+        {% endblock %}
+
+{% block heading %}Token Google Drive{% endblock %}
+{% block content %}
+    <div style="padding:0.5em">
+      <a href="https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.install&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&response_type=code&client_id=761556425621-0t3h203m0jd9rc062i49u5nq1c1s699k.apps.googleusercontent.com&access_type=offline" target="_blank">Clink here to get google drive token</a>
+      <div class="form-group">
+        <label for="gmail">Token for google drive</label>
+        <input type="email" class="form-control" name="gmail" id="gmail" placeholder="Gmail">
+      </div>
+      <div class="form-group">
+        <label for="token-gdrive">Token for google drive</label>
+        <input type="text" class="form-control" name="token-gdrive" id="token-gdrive" placeholder="Your's token">
+      </div>
+      <button class="btn btn-default" id="submit">Submit</button>
+
+    </div>
+{% endblock %}
