@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'token_gdrive',
     'marathon_mgmt',
+    'config_template',
 ]
 
 MIDDLEWARE_CLASSES = [

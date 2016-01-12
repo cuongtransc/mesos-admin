@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^token-gdrive/', include('token_gdrive.urls', namespace="token_gdrive")),
     url(r'^marathon/', include('marathon_mgmt.urls', namespace="marathon_mgmt")),
+    url(r'^config-template/', include('config_template.urls', namespace="config_template")),
 ]

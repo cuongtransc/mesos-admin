@@ -1,0 +1,158 @@
+{% extends 'default/base.html' %}
+{% load staticfiles %}
+{% block title %}Template - Edit Template{% endblock %}
+{% block heading %}Edit template{% endblock %}
+{% block script %}
+<script src="{% static 'js/codemirror.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/codemirror.css' %}" />
+<script src="{% static 'js/mode/javascript/javascript.js' %}"></script>
+
+<script type="text/javascript">
+$( document ).ready(function() {
+  param_node = $('<div class="param"><div class="row"><div class="form-group col-md-3"><label >Name</label><input  type="text" class="form-control param_name" placeholder="Name"></div><div class="form-group col-md-3"><label >Type</label><select class="form-control param_type"><option value="text">text</option><option value="file">file</option></select></div><div class="form-group col-md-3"><label >Default</label><input type="text" class="form-control param_default" placeholder="Default"></div></div><hr width="95%"></div>');
+
+  var editor = CodeMirror.fromTextArea(document.getElementById('content'), {
+    lineNumbers: true
+  });
+  var template_content = '{{template.content}}'
+  editor.getDoc().setValue(template_content.replace(/&quot;/g,'"'));
+
+
+  editor.on("change", function(){
+    // Get param name available
+    var params_name_available = []
+    $(".param").each(function( index ) {
+      param_name = $(this).find('.param_name').val();
+      if(param_name != ""){
+        params_name_available.push(param_name);
+      }
+    });
+    var content = editor.getValue();
+    var param_pattern = /\(([a-zA-Z0-9_]*)\)s/g;
+    var current_params_name = []
+    // Add new param
+    while (param = param_pattern.exec(content) ){
+      current_params_name.push(param[1]);
+      if (params_name_available.indexOf(param[1]) == -1) {
+        var new_param = param_node.clone();
+        new_param.find('.param_name').val(param[1]);
+        $("#param-wrapper").append(new_param);
+      }
+    }
+    // remove param note
+    $(".param").each(function( index ) {
+      param_name = $(this).find('.param_name').val();
+      if(param_name == "" || current_params_name.indexOf(param_name) == -1){
+        $(this).remove();
+      }
+    });
+
+  });
+
+    $('#add-param').click(function(){
+      var param = $('.param:first');
+      var number = $('#add_number').val();
+      for (i = 0; i< number; i++){
+        $("#param-wrapper").append(param.clone());
+      }
+
+    });
+
+
+
+
+    $('#submit').click(function(){
+      var id = "{{template.id}}"
+      var name = $("#name").val();
+      var content = editor.getValue();
+      var type = $("#type").val();
+      var data = {};
+      data.id = id
+      data.name = name;
+      data.content = content;
+      data.type = type;
+      data.params = "";
+      params = []
+      $(".param").each(function( index ) {
+        param = {};
+        param.param_name = $(this).find('.param_name').val();
+        if(param.param_name != ""){
+          param.param_type = $(this).find('.param_type').val();
+          param.param_default = $(this).find('.param_default').val();
+          params.push(param);
+        }
+      });
+      data.params = JSON.stringify(params);
+      $.post("{% url 'config_template:ajax_edit_template'  %}",
+      data,
+      function(data, status){
+          toastr["success"](data);
+      });
+    });
+
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div style="padding:0.5em">
+<div class="row">
+<div class="form-group col-md-4">
+  <label for="name">Name</label>
+  <input type="text" class="form-control" id="name" value="{{template.name}}" placeholder="Name template">
+</div>
+<div class="form-group col-md-4">
+  <label for="type">Type</label>
+  <select class="form-control" id="type" name="type">
+    <option value="marathon" {% if template.type == "marathon" %} selected {%endif%}>marathon</option>
+    <option value="chronos" {% if template.type == "chronos" %} selected {%endif%}>chronos</option>
+    <option value="watcher" {% if template.type == "watcher" %} selected {%endif%}>watcher</option>
+  </select>
+</div>
+</div>
+<div class="form-group">
+  <label for="content">Content</label>
+  <textarea class="form-control" rows="3" id="content"></textarea>
+</div>
+<h4>Param</h4>
+<hr>
+<div id="param-wrapper">
+{% for param in template.params %}
+<div class="param">
+
+<div class="row">
+
+<div class="form-group col-md-3">
+  <label >Name</label>
+  <input  type="text" class="form-control param_name" placeholder="Name" value="{{param.name}}">
+</div>
+
+<div class="form-group col-md-3">
+  <label >Type</label>
+  <select class="form-control param_type">
+      <option value="text" {% if param.type == "text" %} selected {%endif%}>text</option>
+      <option value="file" {% if param.type == "file" %} selected {%endif%}>file</option>
+  </select>
+</div>
+
+<div class="form-group col-md-3">
+  <label >Default</label>
+  <input type="text" class="form-control param_default" value="{{param.default}}" placeholder="Default">
+</div>
+</div>
+<hr width="95%">
+
+</div>
+{% endfor %}
+</div>
+<div class="row">
+  <div class="form-group form-inline col-md-4 col-md-offset-8">
+    <input type="number" id="add_number" class="form-control" value="1">
+    <button id="add-param" class="btn btn-default">Add param</button>
+  </div>
+</div>
+<hr>
+<button id="submit" class="btn btn-default">Update</button>
+
+</div>
+{% endblock %}
