@@ -272,18 +272,11 @@
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Mesos management<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Marathon management<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li>
-                                    <a href="#">Marathon<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <!-- <a href="">New Application</a> -->
-                                        </li>
-                                        <li>
-                                            <!-- <a href="">List Application</a> -->
-                                        </li>
-                                    </ul>
+                                    <a href="{% url 'marathon_mgmt:new_app' %}">New Application</a>
+                                    <a href="{% url 'marathon_mgmt:list_app' %}">List Application</a>
                                 </li>
                                 <li>
                                     <!-- <a href="">Chronos</a> -->

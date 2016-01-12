@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'token_gdrive',
+    'marathon_mgmt',
 ]
 
 MIDDLEWARE_CLASSES = [
