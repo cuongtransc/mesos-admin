@@ -15,7 +15,6 @@ function start_refresh() {
 }
 
 function refreshing() {
-  console.log("fd")
   $.get("{% url 'marathon_mgmt:ajax_list_apps'  %}",
   {},
   function(data, status){
@@ -37,7 +36,6 @@ $( document ).ready(function() {
       var data = {}
       data.id = id
       data.action = action
-      console.log(id)
       if (action=='scale') {
         data['number_instance'] = $(id_ni).val()
         start_refresh()

@@ -3,11 +3,11 @@ from django.http import HttpResponse
 from django.conf import settings
 from marathon import MarathonClient
 from django.views.decorators.csrf import csrf_exempt
-from marathon_mgmt.models import *
 from marathon_mgmt.utils import *
 import json
 import html
 import traceback
+from config_template.models import *
 
 # Create your views here.
 @csrf_exempt
