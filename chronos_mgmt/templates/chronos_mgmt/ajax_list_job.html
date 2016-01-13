@@ -1,0 +1,111 @@
+<div class="table-responsive" id="table-list">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th align="left">Name</th>
+                <th style="text-align:left">Last</th>
+                <th style="text-align:left">Schedule</th>
+                <th style="text-align:center">Run</th>
+                <th style="text-align:center">Details</th>
+                <th style="text-align:center">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr id="job-{{job.name}}">
+              <td align="left">{{job.name}}</td>
+              {% if job.last == 'success' %}
+                <td align="left"> <span class="label label-success" title="{{job.lastSuccess}}">Success</span></td>
+              {% elif job.last == 'error'%}
+                <td align="left"> <span class="label label-danger" title="{{job.lastError}}" title="{{job.lastSuccess}}">Error</span></td>
+              {% else %}
+                <td align="left"> <span class="label label-success">-</span></td>
+              {% endif %}
+              <td align="left">{{job.schedule}}</td>
+              <td align="center"><button class="btn btn-warning btaction" data-name="{{job.name}}" data-action="run">Run</button></td>
+
+              <td align="center"><button class="btn btn-danger btaction" data-name="{{job.name}}" data-action="destroy">Destroy</button></td>
+
+              <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{job.name}}" onclick="stop_refresh()">Details</button></td>
+
+                            <!-- Modal -->
+              <div class="modal fade" id="modal-{{job.name }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button onclick="start_refresh()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">{{job.name}}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <p class="text-muted text-uppercase">Name</p>
+                        <p class="text-black">{{job.name}}</p>
+                      </div>
+                      <div class="row">
+                        <p class="text-muted text-uppercase">description</p>
+                        <p class="text-black">{{job.description}}</p>
+                      </div>
+                      <div class="row">
+                        <p class="text-muted text-uppercase">Command</p>
+                        <p class="text-black">{{job.command}}</p>
+                      </div>
+                      <div class="row" style="border-bottom:0">
+                        <div class="col-md-6">
+                          <p class="text-muted text-uppercase">Last success</p>
+                          <p class="text-black">{{job.lastSuccess}}</p>
+                        </div>
+
+                        <div class="col-md-6">
+                          <p class="text-muted text-uppercase">Last error</p>
+                          <p class="text-black">{{job.lastError}}</p>
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p class="text-muted text-uppercase">#success</p>
+                          <p class="text-black">{{job.successCount}}</p>
+                        </div>
+
+                        <div class="col-md-6">
+                          <p class="text-muted text-uppercase">#error</p>
+                          <p class="text-black">{{job.errorCount}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <p class="text-muted text-uppercase">CPU</p>
+                          <p class="text-black">{{job.cpus}}</p>
+                        </div>
+                        <div class="col-md-4">
+                          <p class="text-muted text-uppercase">Mem</p>
+                          <p class="text-black">{{job.mem}}</p>
+                        </div>
+                        <div class="col-md-4">
+                          <p class="text-muted text-uppercase">Disk</p>
+                          <p class="text-black">{{job.disk}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <p class="text-muted text-uppercase">JOB RUNTIME (PERCENTILES)</p>
+
+                        <p class="text-black col-md-3"><span class="badge">50th</span>{{job.stat.mean}}</p>
+                        <p class="text-black col-md-3"><span class="badge">75th</span>{{job.stat.75thPercentile}}</p>
+                        <p class="text-black col-md-3"><span class="badge">95th</span>{{job.stat.95thPercentile}}</p>
+                        <p class="text-black col-md-3"><span class="badge">99th</span>{{job.stat.99thPercentile}}</p>
+
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal" onclick="start_refresh()">Close</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>

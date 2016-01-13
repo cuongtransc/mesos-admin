@@ -6,6 +6,7 @@
 
 body {
     background-color: #f8f8f8;
+    font-family: "Source Sans Pro";
 }
 
 #wrapper {
@@ -351,4 +352,24 @@ table.dataTable thead .sorting:after {
 
 .panel-yellow a:hover {
     color: #df8a13;
+}
+
+.modal-body .row {
+  border-bottom: #eeeeee solid 2px;
+}
+.modal-body .row p {
+  margin-bottom: 0.1em;
+}
+
+.modal-body .row hr {
+  margin: 0;
+}
+
+.modal-body .row div {
+  padding: 0;
+}
+
+.modal-body{
+  padding-left: 2em;
+  padding-right: 2em;
 }

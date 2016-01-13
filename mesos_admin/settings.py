@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'token_gdrive',
     'marathon_mgmt',
+    'chronos_mgmt',
     'config_template',
 ]
 
@@ -138,4 +139,9 @@ DIR_GDRIVE_AUTH = BASE_DIR + "/token_gdrive/gdrive_auth"
 MARATHON = {
     'host': '10.10.0.50',
     'port': '8080'
+}
+
+CHRONOS = {
+    'host': '10.10.0.50',
+    'port': '4400'
 }
