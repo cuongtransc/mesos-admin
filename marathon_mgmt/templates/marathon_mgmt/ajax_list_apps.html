@@ -19,15 +19,15 @@
           <td align="right">{{app.mem}}</td>
           <td align="right">{{app.tasks_running}}</td>
           {% if app.tasks_running %}
-          <td align="center"><button class="btn btn-primary btaction" data-id="{{app.id}}" data-action="stop" >Stop</button></td>
+          <td align="center"><button class="btn btn-primary btaction" data-id="{{app.id}}" data-action="stop" ><i class="fa fa-stop"></i></button></td>
           {% else %}
-          <td align="center"><button class="btn btn-success btaction" data-id="{{app.id}}" data-action="start">Start</button></td>
+          <td align="center"><button class="btn btn-success btaction" data-id="{{app.id}}" data-action="start"><i class="fa fa-play"></i></button></td>
           {% endif %}
-          <td align="center"><button class="btn btn-warning btaction" data-id="{{app.id}}" data-action="restart">Restart</button></td>
+          <td align="center"><button class="btn btn-warning btaction" data-id="{{app.id}}" data-action="restart"><i class="fa fa-refresh"></i></button></td>
 
-          <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{app.id|slice:"1:" }}" onclick="stop_refresh()">Scale</button></td>
+          <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{app.id|slice:"1:" }}" onclick="stop_refresh()"><i class="fa fa-arrows-h"></i></button></td>
 
-          <td align="center"><button class="btn btn-danger btaction" data-id="{{app.id}}" data-action="destroy">Destroy</button></td>
+          <td align="center"><button class="btn btn-danger btaction" data-id="{{app.id}}" data-action="destroy"><i class="fa fa-times"></i></button></td>
 
                         <!-- Modal -->
           <div class="modal fade" id="modal-{{app.id|slice:"1:" }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
