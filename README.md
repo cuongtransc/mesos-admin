@@ -12,7 +12,7 @@ docker-compose up -d python
 docker exec -it mesosadmin_python_1 bash
 
 # install runtime
-apt-get install -y git libpq-dev git
+apt-get install -y git libpq-dev
 
 pip3 install -r requirements.txt
 
