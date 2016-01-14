@@ -3,3 +3,5 @@
 django
 psycopg2
 python-dateutil
+elasticsearch
+apscheduler

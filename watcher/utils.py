@@ -5,7 +5,6 @@ import threading
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import time
-import schedule
 from elasticsearch import Elasticsearch
 from apscheduler.schedulers.background import BackgroundScheduler
 import random
