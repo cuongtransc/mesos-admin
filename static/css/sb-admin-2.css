@@ -373,3 +373,12 @@ table.dataTable thead .sorting:after {
   padding-left: 2em;
   padding-right: 2em;
 }
+.notify-wapper{
+  position: relative;
+}
+.top-notify {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  background-color: red;
+}

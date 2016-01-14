@@ -1,0 +1,109 @@
+{% extends 'default/base.html' %}
+{% block title %}Watcher manage{% endblock %}
+{% block heading %}Watcher - List Applications{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+interval = 3000
+
+refresher = setInterval(refreshing,interval);
+/** Function to refresh the page at specified interval. **/
+function start_refresh() {
+    clearInterval(refresher);
+    refresher = setInterval(refreshing,interval);
+}
+
+function refreshing() {
+  $.get("{% url 'watcher:ajax_list_notifications'  %}",
+  {},
+  function(data, status){
+      $("#table-list").html(data)
+  });
+}
+
+/** Function to stop refreshing the page. **/
+function stop_refresh() {
+    clearInterval(refresher);
+    window.location.hash = 'stop'
+}
+
+$( document ).ready(function() {
+    $('body').on('click','.btaction',function(){
+      var id = $(this).data('id');
+      var action = $(this).data('action');
+      var data = {}
+      data.id = id
+      data.action = action
+      if (action=='scale') {
+        data['number_instance'] = $(id_ni).val()
+        start_refresh()
+      }
+      $.post("{% url 'watcher:notify_action'  %}",
+      data,
+      function(data, status){
+          // data = JSON.parse(data);
+          // toastr[data.status](data.msg);
+          refreshing()
+      });
+    });
+
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="table-responsive" id="table-list">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="text-align:left">Watcher</th>
+                <th style="text-align:left">Title</th>
+                <th style="text-align:left">Message</th>
+                <th style="text-align:left">Create at</th>
+                <th style="text-align:center">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for notif in notifs %}
+            {% if notif.status == "0" %}
+            <tr class="success">
+              <td >{{notif.watcher.name}}</td>
+              <td >{{notif.title}}</td>
+              <td >{{notif.message}}</td>
+              <td >{{notif.created_at}}</td>
+              <td align="center"><button class="btn btn-default btaction" data-id="{{notif.id}}" data-action="status1"><i class="fa fa-circle-o"></i></button></td>
+            </tr>
+            {% else %}
+            <tr >
+              <td align="left">{{notif.watcher.name}}</td>
+              <td align="left">{{notif.title}}</td>
+              <td align="left">{{notif.message}}</td>
+              <td align="left">{{notif.created_at}}</td>
+              <td align="center"><button class="btn btn-default btaction" data-id="{{notif.id}}" data-action="status0"><i class="fa fa-check"></i></button></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <div class="pagination">
+    <span class="step-links">
+        {% if notifs.has_previous %}
+            <a href="?page={{ notifs.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ notifs.number }} of {{ notifs.paginator.num_pages }}.
+        </span>
+
+        {% if notifs.has_next %}
+            <a href="?page={{ notifs.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+
+
+{% endblock %}

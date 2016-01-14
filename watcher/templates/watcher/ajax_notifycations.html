@@ -1,0 +1,25 @@
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="fa fa-bell fa-fw notify-wapper" ><span class="badge top-notify">{{total}}</span></i>  <i class="fa fa-caret-down"></i>
+</a>
+<ul class="dropdown-menu dropdown-alerts">
+  {% for notif in notifs %}
+    <li>
+        <a href="#">
+            <div>
+                <strong>{{notif.title}}</strong>
+                <span class="pull-right text-muted">
+                    <em>{{notif.created_at}}</em>
+                </span>
+            </div>
+            <div>{{notif.message}}</div>
+        </a>
+    </li>
+    <li class="divider"></li>
+    {% endfor %}
+    <li>
+        <a class="text-center" href="{% url 'watcher:list_notifications'%}">
+            <strong>Read All Alert</strong>
+            <i class="fa fa-angle-right"></i>
+        </a>
+    </li>
+</ul>

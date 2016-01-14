@@ -1,0 +1,85 @@
+{% extends 'default/base.html' %}
+{% block title %}Watcher manage{% endblock %}
+{% block heading %}Watcher - List Applications{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+interval = 3000
+
+refresher = setInterval(refreshing,interval);
+/** Function to refresh the page at specified interval. **/
+function start_refresh() {
+    clearInterval(refresher);
+    refresher = setInterval(refreshing,interval);
+}
+
+function refreshing() {
+  $.get("{% url 'watcher:ajax_list_watcher'  %}",
+  {},
+  function(data, status){
+      $("#table-list").html(data)
+  });
+}
+
+/** Function to stop refreshing the page. **/
+function stop_refresh() {
+    clearInterval(refresher);
+    window.location.hash = 'stop'
+}
+
+$( document ).ready(function() {
+    $('body').on('click','.btaction',function(){
+      var name = $(this).data('name');
+      var action = $(this).data('action');
+      var data = {}
+      data.name = name
+      data.action = action
+      if (action=='scale') {
+        data['number_instance'] = $(id_ni).val()
+        start_refresh()
+      }
+      $.post("{% url 'watcher:watcher_action'  %}",
+      data,
+      function(data, status){
+          data = JSON.parse(data);
+          toastr[data.status](data.msg);
+      });
+    });
+
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="table-responsive" id="table-list">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th style="text-align:left">Name</th>
+                <th style="text-align:center">Stop/Start</th>
+                <th style="text-align:center">Restart</th>
+                <th style="text-align:center">Destroy</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for watcher_thread in watcher_threads %}
+            <tr>
+              <td align="left">{{watcher_thread.getName}}</td>
+              {% if watcher_thread.is_alive %}
+                <td align="center"><button class="btn btn-primary btaction" data-name="{{watcher_thread.getName}}" data-action="stop">Stop</button></td>
+              {% else %}
+                <td align="center"><button class="btn btn-success btaction" data-name="{{watcher_thread.getName}}" data-action="start">start</button></td>
+              {% endif %}
+              <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.getName}}" data-action="restart">Restart</button></td>
+              <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.getName}}" data-action="destroy">Destroy</button></td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

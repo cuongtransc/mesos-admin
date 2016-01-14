@@ -1,0 +1,48 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th style="text-align:left">Watcher</th>
+            <th style="text-align:left">Title</th>
+            <th style="text-align:left">Message</th>
+            <th style="text-align:left">Create at</th>
+            <th style="text-align:center">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for notif in notifs %}
+        {% if notif.status == "0" %}
+        <tr class="success">
+          <td >{{notif.watcher.name}}</td>
+          <td >{{notif.title}}</td>
+          <td >{{notif.message}}</td>
+          <td >{{notif.created_at}}</td>
+          <td align="center"><button class="btn btn-default btaction" data-id="{{notif.id}}" data-action="status1"><i class="fa fa-circle-o"></i></button></td>
+        </tr>
+        {% else %}
+        <tr >
+          <td align="left">{{notif.watcher.name}}</td>
+          <td align="left">{{notif.title}}</td>
+          <td align="left">{{notif.message}}</td>
+          <td align="left">{{notif.created_at}}</td>
+          <td align="center"><button class="btn btn-default btaction" data-id="{{notif.id}}" data-action="status0"><i class="fa fa-check"></i></button></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+    </tbody>
+</table>
+<div class="pagination">
+<span class="step-links">
+    {% if notifs.has_previous %}
+        <a href="?page={{ notifs.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+        Page {{ notifs.number }} of {{ notifs.paginator.num_pages }}.
+    </span>
+
+    {% if notifs.has_next %}
+        <a href="?page={{ notifs.next_page_number }}">next</a>
+    {% endif %}
+</span>
+</div>

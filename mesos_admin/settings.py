@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'marathon_mgmt',
     'chronos_mgmt',
     'config_template',
+    'watcher'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -145,3 +146,5 @@ CHRONOS = {
     'host': '10.10.0.50',
     'port': '4400'
 }
+
+WATCHER_THREADS = {}

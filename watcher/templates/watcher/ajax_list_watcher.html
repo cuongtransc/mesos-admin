@@ -1,0 +1,25 @@
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th style="text-align:left">Name</th>
+            <th style="text-align:center">Stop/Start</th>
+            <th style="text-align:center">Restart</th>
+            <th style="text-align:center">Destroy</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for watcher_thread in watcher_threads %}
+        <tr>
+          <td align="left">{{watcher_thread.getName}}</td>
+          {% if watcher_thread.is_alive %}
+            <td align="center"><button class="btn btn-primary btaction" data-name="{{watcher_thread.getName}}" data-action="stop">Stop</button></td>
+          {% else %}
+            <td align="center"><button class="btn btn-success btaction" data-name="{{watcher_thread.getName}}" data-action="start">start</button></td>
+          {% endif %}
+          <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.getName}}" data-action="restart">Restart</button></td>
+          <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.getName}}" data-action="destroy">Destroy</button></td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
