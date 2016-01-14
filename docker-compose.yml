@@ -1,10 +1,40 @@
-#Author: Nguyen Ba Cuong
+# Author: Nguyen Ba Cuong
 
-postgres-db:
-  image: "postgres:9.4"
-  ports:
-    - "3132:5432"
-  environment:
-    - POSTGRES_USER=admin
-    - POSTGRES_PASSWORD=openthedoor
-    - POSTGRES_DB=demo
+postgres:
+    image: "postgres:9.4"
+    ports:
+        - "3132:5432"
+    environment:
+        - POSTGRES_USER=admin
+        - POSTGRES_PASSWORD=openthedoor
+        - POSTGRES_DB=demo
+    hostname: postgres
+    domainname: coclab.lan
+    cpu_shares: 512              # 0.5 CPU
+    mem_limit: 536870912         # 512 MB RAM
+    # privileged: true
+    # restart: always
+    # stdin_open: true
+    # tty: true
+
+python:
+    image: "tranhuucuong91/python:3.4"
+    command: bash -c "while true; do date; sleep 1; done"
+    links:
+        - postgres:postgres
+    ports:
+        - "8000:8000"
+    # environment:
+    #     - POSTGRES_USER=admin
+    #     - POSTGRES_PASSWORD=openthedoor
+    #     - POSTGRES_DB=demo
+    volumes:
+        - ./:/data
+    hostname: python
+    domainname: coclab.lan
+    cpu_shares: 512              # 0.5 CPU
+    mem_limit: 536870912         # 512 MB RAM
+    # privileged: true
+    # restart: always
+    # stdin_open: true
+    tty: true

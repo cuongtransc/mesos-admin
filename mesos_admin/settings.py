@@ -88,8 +88,8 @@ DATABASES = {
         'NAME': 'demo',
         'USER': 'admin',
         'PASSWORD': 'openthedoor',
-        'HOST': 'localhost',
-        'PORT': '3132',
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
 }
 
