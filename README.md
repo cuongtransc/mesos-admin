@@ -6,23 +6,16 @@ Mesos admin
 
 ```sh
 # run dev container
-docker-compose up -d python
+docker-compose up -d mesos-admin
 
 # execute into container
-docker exec -it mesosadmin_python_1 bash
-
-# install runtime
-apt-get install -y git libpq-dev
-
-pip3 install -r requirements.txt
-
+docker exec -it mesosadmin_mesos-admin_1 bash
 
 # makemigrations
 ./manage.py makemigrations
 
 # migrate database
 ./manage.py migrate
-
 
 
 # run app

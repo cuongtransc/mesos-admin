@@ -17,8 +17,8 @@ postgres:
     # stdin_open: true
     # tty: true
 
-python:
-    image: "tranhuucuong91/python:3.4"
+mesos-admin:
+    image: "tranhuucuong91/mesos-admin:0.1"
     command: bash -c "while true; do date; sleep 1; done"
     links:
         - postgres:postgres
