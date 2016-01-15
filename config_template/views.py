@@ -85,4 +85,4 @@ def edit_template(request, template_id):
 def delete_template(request, template_id):
     template = Template.objects.get(pk=template_id)
     template.delete()
-    return redirect('/config_template/list-template')
+    return redirect('/config-template/list-template')
