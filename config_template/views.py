@@ -69,7 +69,7 @@ def ajax_edit_template(request):
         return HttpResponse("Edit template failed")
 
 def list_template(request):
-    templates = Template.objects.all()
+    templates = Template.objects.order_by("id").order_by("type")
     data = {}
     data['templates'] = templates
     return render(request, 'config_template/list_template.html',data)
