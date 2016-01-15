@@ -1,5 +1,9 @@
 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-    <i class="fa fa-bell fa-fw notify-wapper" ><span class="badge top-notify">{{total}}</span></i>  <i class="fa fa-caret-down"></i>
+    <i class="fa fa-bell fa-fw notify-wapper" >
+      {% if total > 0 %}
+        <span class="badge top-notify">{{total}}</span>
+      {% endif %}
+    </i>  <i class="fa fa-caret-down"></i>
 </a>
 <ul class="dropdown-menu dropdown-alerts">
   {% for notif in notifs %}
