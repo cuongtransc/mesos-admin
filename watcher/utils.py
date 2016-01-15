@@ -31,7 +31,7 @@ class Watcher:
         self.logger.info("Loading config ...")
         self.config = json.loads(config_jons)
         self.logger.info("Create searcher...")
-        self.searcher = Elasticsearch(self.config["eslaticsearch"])
+        self.searcher = Elasticsearch(self.config["elasticsearch"])
         self.name = name
 
     def stop(self):
@@ -83,9 +83,9 @@ class Watcher:
         self.add_action(send_log_action)
 
     def watching(self):
-        """Query log in eslaticsearch and compare condition then implement action"""
-        self.logger.info("Searching in eslaticsearch...")
-        print("Searching in eslaticsearch...")
+        """Query log in elasticsearch and compare condition then implement action"""
+        self.logger.info("Searching in elasticsearch...")
+        print("Searching in elasticsearch...")
         response = self.searcher.search(index=self.config["index"], body=self.config["search"])
         self.logger.debug("Total hits: " + str(response['hits']['total']))
         self.logger.debug(response)
