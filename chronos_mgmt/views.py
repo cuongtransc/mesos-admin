@@ -87,14 +87,9 @@ def send_to_chronos(request):
             cclient = chronos.connect('{}:{}'.format(settings.CHRONOS['host'], settings.CHRONOS['port']))
             if action == 'destroy':
                 cclient.delete(job_name)
-            # elif action == 'start':
-            #     cclient.scale_app(app_id, 1)
-            # elif action == 'destroy':
-            #     cclient.delete(job_name)
-            # elif action == 'restart':
-            #     pass
-            # elif action == 'scale':
-            #     cclient.scale_app(app_id, int(request.POST.get('number_instance')))
+            elif action == 'run':
+                cclient.run(job_name)
+
             result = '{"status":"success", "msg": "%(action)s success"}'%{"action":action}
     except Exception as e:
         result = '{"status":"error", "msg": "%(action)s fail: %(error)s" }'%{"action":action, "error": html.escape(str(e))}
