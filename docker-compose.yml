@@ -29,7 +29,7 @@ mesos-admin:
     #     - POSTGRES_PASSWORD=openthedoor
     #     - POSTGRES_DB=demo
     volumes:
-        - ./:/data
+        - ./:/mesos-admin/
     hostname: python
     domainname: coclab.lan
     cpu_shares: 512              # 0.5 CPU
