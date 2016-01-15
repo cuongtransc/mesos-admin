@@ -382,3 +382,20 @@ table.dataTable thead .sorting:after {
   left: -15px;
   background-color: red;
 }
+
+#side-menu a {
+  text-transform: capitalize;
+}
+.heading-wapper{
+  padding-top: 1em;
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+.heading-wapper hr{
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+.top-heading {
+  margin: 0;
+}

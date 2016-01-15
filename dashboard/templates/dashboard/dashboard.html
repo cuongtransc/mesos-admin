@@ -1,0 +1,104 @@
+{% extends 'default/base.html' %}
+{% load staticfiles %}
+{% block title %}Dashboard{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+{% block script %}
+
+{% endblock %}
+
+{% block content %}
+<div class="row" style="padding: 0.5em">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{total_app}}</div>
+                                    <div>Applications</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'marathon_mgmt:list_app'%}">
+                            <div class="panel-footer">
+                                <span class="pull-left">List Applications</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{total_job}}</div>
+                                    <div>Jobs</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'chronos_mgmt:list_job'%}">
+                            <div class="panel-footer">
+                                <span class="pull-left">List Jobs</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{total_watcher}}</div>
+                                    <div>Watchers</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'watcher:list_watcher'%}">
+                            <div class="panel-footer">
+                                <span class="pull-left">List Watchers</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-support fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{total_template}}</div>
+                                    <div>Templates</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'config_template:list_template'%}">
+                            <div class="panel-footer">
+                                <span class="pull-left">List template</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

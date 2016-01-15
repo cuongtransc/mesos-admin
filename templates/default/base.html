@@ -100,7 +100,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <!-- <a href="" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> -->
+                            <a href="{% url 'dashboard:dashboard' %}" ><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="{% url 'token_gdrive:index'  %}"><i class="fa fa-barcode  fa-fw"></i> Token Google Drive</a>
@@ -169,7 +169,13 @@
         </nav>
 
         <div id="page-wrapper" class="container-fluid" style="padding:0">
-          <h2 style="padding-left:0.5em">{% block heading %}{% endblock %}</h2>
+          <div class=" clearfix heading-wapper">
+            <h2 class="top-heading pull-left">{% block heading %}{% endblock %}</h2>
+            <div class="top-action pull-right">
+              {% block topaction %}{% endblock %}
+            </div>
+          </div>
+
           <hr>
           {% block content %}
 

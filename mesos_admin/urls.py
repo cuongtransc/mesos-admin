@@ -20,11 +20,12 @@ from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url=reverse_lazy('watcher:list_watcher')), name='index'),
+    url(r'^$', RedirectView.as_view(url=reverse_lazy('dashboard:dashboard')), name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^token-gdrive/', include('token_gdrive.urls', namespace="token_gdrive")),
     url(r'^marathon/', include('marathon_mgmt.urls', namespace="marathon_mgmt")),
     url(r'^chronos/', include('chronos_mgmt.urls', namespace="chronos_mgmt")),
     url(r'^config-template/', include('config_template.urls', namespace="config_template")),
     url(r'^watcher/', include('watcher.urls', namespace="watcher")),
+    url(r'^dashboard/', include('dashboard.urls', namespace="dashboard")),
 ]

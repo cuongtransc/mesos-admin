@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'marathon_mgmt',
     'chronos_mgmt',
     'config_template',
-    'watcher'
+    'watcher',
+    'dashboard',
 ]
 
 MIDDLEWARE_CLASSES = [
