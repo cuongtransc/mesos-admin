@@ -16,7 +16,7 @@ function start_refresh() {
 
 function refreshing() {
   $.get("{% url 'watcher:ajax_list_notifications'  %}",
-  {},
+  {'page': "{{page}}"},
   function(data, status){
       $("#table-list").html(data)
   });

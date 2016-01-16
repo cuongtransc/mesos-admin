@@ -130,6 +130,7 @@ def list_notifications(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         notifs = paginator.page(paginator.num_pages)
     data = {}
+    data['page'] = page
     data['notifs'] = notifs
     return render(request, 'watcher/list_notifycations.html', data)
 
