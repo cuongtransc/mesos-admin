@@ -18,7 +18,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
-
+from mesos_admin import startup
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url=reverse_lazy('dashboard:dashboard')), name='index'),
     url(r'^admin/', admin.site.urls),
@@ -29,3 +29,5 @@ urlpatterns = [
     url(r'^watcher/', include('watcher.urls', namespace="watcher")),
     url(r'^dashboard/', include('dashboard.urls', namespace="dashboard")),
 ]
+
+startup.start_watcher()

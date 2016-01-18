@@ -3,7 +3,8 @@ from django.db import models
 # Create your models here.
 class Watcher(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
+    status = models.CharField(max_length=1, default='0')
     config = models.TextField(default='')
     created_at = models.DateField(auto_now_add=True)
     class Meta:

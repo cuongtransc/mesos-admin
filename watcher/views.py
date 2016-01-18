@@ -35,15 +35,7 @@ def new_watcher(request):
         content = template.content%post_params
         data['content'] = content
         try:
-            watcher = Watcher(content, watcher_name)
-            watcher_thread = WatcherThread(watcher_name, watcher)
-            settings.WATCHER_THREADS[watcher_name] = watcher_thread
-
-            watcher_model = models.Watcher()
-            watcher_model.name = watcher_name
-            watcher_model.config = content
-            watcher_model.save()
-
+            watcher_thread = create_new_watcher(content, watcher_name)
             watcher_thread.start()
             data['result'] = "Success"
         except Exception as e:
@@ -64,7 +56,9 @@ def watcher_action(request):
         if request.method == 'POST':
             action = request.POST.get('action', None)
             watcher_name = request.POST.get('name', None)
+            watcher_model = models.Watcher.objects.get(name=watcher_name)
             if action == 'destroy':
+                watcher_model.delete()
                 del settings.WATCHER_THREADS[watcher_name]
             elif action == 'start':
                 old_watcher = settings.WATCHER_THREADS[watcher_name]
@@ -73,21 +67,29 @@ def watcher_action(request):
                 new_watcher = WatcherThread(old_watcher.getName(), watcher_obj)
                 del old_watcher
                 settings.WATCHER_THREADS[watcher_name] = new_watcher
+                watcher_model.status = '1'
                 new_watcher.start()
             elif action == 'stop':
                  settings.WATCHER_THREADS[watcher_name].stop()
+                 watcher_model.status = '0'
             elif action == 'restart':
                  settings.WATCHER_THREADS[watcher_name].stop()
+                 watcher_model.status = '0'
                  time.sleep(3)
                  old_watcher = settings.WATCHER_THREADS[watcher_name]
                  watcher_obj = old_watcher.watcher
                  watcher_obj.set_running(True)
                  new_watcher = WatcherThread(old_watcher.getName(), watcher_obj)
                  del old_watcher
+                 old_watcher = settings.WATCHER_THREADS[watcher_name]
+                 watcher_obj = old_watcher.watcher
+                 watcher_obj.set_running(True)
+                 new_watcher = WatcherThread(old_watcher.getName(), watcher_obj)
+                 del old_watcher
                  settings.WATCHER_THREADS[watcher_name] = new_watcher
+                 watcher_model.status = '1'
                  new_watcher.start()
-            # elif action == 'scale':
-            #     cclient.scale_app(app_id, int(request.POST.get('number_instance')))
+
             result = '{"status":"success", "msg": "%(action)s success"}'%{"action":action}
     except Exception as e:
         result = '{"status":"error", "msg": "%(action)s fail: %(error)s" }'%{"action":action, "error": str(e)}
@@ -95,15 +97,23 @@ def watcher_action(request):
     return HttpResponse(result)
 
 def list_watcher(request):
-    watcher_threads = settings.WATCHER_THREADS
-    watcher_threads = list(watcher_threads.values())
+    watcher_threads = models.Watcher.objects.all()
+    for watcher_thread in watcher_threads:
+        if settings.WATCHER_THREADS.get(watcher_thread.name, None):
+            watcher_thread.is_alive = settings.WATCHER_THREADS.get(watcher_thread.name).is_alive()
+        else:
+            watcher_thread.is_alive = False
     data = {'watcher_threads': watcher_threads}
 
     return render(request, 'watcher/list_watcher.html', data)
 
 def ajax_list_watcher(request):
-    watcher_threads = settings.WATCHER_THREADS
-    watcher_threads = list(watcher_threads.values())
+    watcher_threads = models.Watcher.objects.all()
+    for watcher_thread in watcher_threads:
+        if settings.WATCHER_THREADS.get(watcher_thread.name, None):
+            watcher_thread.is_alive = settings.WATCHER_THREADS.get(watcher_thread.name).is_alive()
+        else:
+            watcher_thread.is_alive = False
     data = {'watcher_threads': watcher_threads}
     return render(request, 'watcher/ajax_list_watcher.html', data)
 

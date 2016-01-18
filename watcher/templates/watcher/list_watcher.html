@@ -66,14 +66,14 @@ $( document ).ready(function() {
         <tbody>
             {% for watcher_thread in watcher_threads %}
             <tr>
-              <td align="left">{{watcher_thread.getName}}</td>
+              <td align="left">{{watcher_thread.name}}</td>
               {% if watcher_thread.is_alive %}
-                <td align="center"><button class="btn btn-primary btaction" data-name="{{watcher_thread.getName}}" data-action="stop">Stop</button></td>
+                <td align="center"><button class="btn btn-primary btaction" data-name="{{watcher_thread.name}}" data-action="stop">Stop</button></td>
               {% else %}
-                <td align="center"><button class="btn btn-success btaction" data-name="{{watcher_thread.getName}}" data-action="start">start</button></td>
+                <td align="center"><button class="btn btn-success btaction" data-name="{{watcher_thread.name}}" data-action="start">Start</button></td>
               {% endif %}
-              <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.getName}}" data-action="restart">Restart</button></td>
-              <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.getName}}" data-action="destroy">Destroy</button></td>
+              <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.name}}" data-action="restart">Restart</button></td>
+              <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.name}}" data-action="destroy">Destroy</button></td>
             </tr>
             {% endfor %}
 

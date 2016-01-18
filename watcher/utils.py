@@ -9,6 +9,8 @@ from elasticsearch import Elasticsearch
 from apscheduler.schedulers.background import BackgroundScheduler
 import random
 import watcher.models as models
+from django.conf import settings
+
 
 
 class Watcher:
@@ -142,10 +144,28 @@ class WatcherThread(threading.Thread):
         self.setDaemon(True)
         self.watcher.add_condition(total_condition)
         self.watcher.add_action(store_in_db_action)
-        self.watcher.add_send_gmail_action()
+        #self.watcher.add_send_gmail_action()
 
     def run(self):
         self.watcher.run()
 
     def stop(self):
         self.watcher.stop()
+
+def create_new_watcher(config, watcher_name):
+    watcher = Watcher(config, watcher_name)
+    watcher_thread = WatcherThread(watcher_name, watcher)
+    settings.WATCHER_THREADS[watcher_name] = watcher_thread
+
+    watcher_model = models.Watcher()
+    watcher_model.name = watcher_name
+    watcher_model.config = config
+    watcher_model.save()
+    return watcher_thread
+
+def create_watcher_from_db(watcher_id):
+    watcher_model = models.Watcher.objects.get(pk=watcher_id)
+    watcher = Watcher(watcher_model.config, watcher_model.name)
+    watcher_thread = WatcherThread(watcher_model.name, watcher)
+    settings.WATCHER_THREADS[watcher_model.name] = watcher_thread
+    return watcher_thread
