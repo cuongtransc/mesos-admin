@@ -52,6 +52,7 @@ def new_app(request):
 def list_app(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     apps = mc.list_apps()
+    apps = sorted(apps, key=lambda app: app.id)
     data = {'apps': apps}
     data['refresh'] = 3000
     return render(request, 'marathon_mgmt/list_app.html', data)
@@ -82,5 +83,6 @@ def send_to_marathon(request):
 def ajax_list_apps(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     apps = mc.list_apps()
+    apps = sorted(apps, key=lambda app: app.id)
     data = {'apps': apps}
     return render(request, 'marathon_mgmt/ajax_list_apps.html', data)
