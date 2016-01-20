@@ -94,6 +94,13 @@ def send_to_marathon(request):
                 pass
             elif action == 'scale':
                 mc.scale_app(app_id, int(request.POST.get('number_instance')))
+            elif action == 'update':
+                app = mc.get_app(app_id)
+                app.cpus = int(request.POST.get('cpus'))
+                app.mem = int(request.POST.get('mem'))
+                app.container.docker.image = request.POST.get('version')
+                print(app)
+                mc.update_app(app_id, app)
             result = '{"status":"success", "msg": "%(action)s success"}'%{"action":action}
     except Exception as e:
         result = '{"status":"error", "msg": "%(action)s fail: %(error)s" }'%{"action":action, "error": html.escape(str(e))}

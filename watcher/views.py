@@ -188,6 +188,18 @@ def notify_action(request):
                 notif = models.Notification.objects.get(pk=notif_id)
                 notif.status = "0"
                 notif.save()
+            elif action == "readall":
+                notifs = models.Notification.objects.all()
+                for notif in notifs:
+                    notif.status = "1"
+                    notif.save()
+            elif action == "delall":
+                notifs = models.Notification.objects.all()
+                for notif in notifs:
+                    notif.delete()
+            elif action == "delete":
+                notif = models.Notification.objects.get(pk=notif_id)
+                notif.delete()
             else:
                 pass
             return HttpResponse("success")

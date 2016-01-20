@@ -6,6 +6,7 @@
             <th style="text-align:left">Message</th>
             <th style="text-align:left">Create at</th>
             <th style="text-align:center">Status</th>
+            <th style="text-align:center">Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +18,7 @@
           <td >{{notif.message}}</td>
           <td >{{notif.created_at}}</td>
           <td align="center"><button class="btn btn-default btaction" data-id="{{notif.id}}" data-action="status1"><i class="fa fa-circle-o"></i></button></td>
+          <td align="center"><button class="btn btn-danger btaction" data-id="{{notif.id}}" data-action="delete"><i class="fa fa-trash-o"></i></button></td>
         </tr>
         {% else %}
         <tr >
@@ -25,6 +27,7 @@
           <td align="left">{{notif.message}}</td>
           <td align="left">{{notif.created_at}}</td>
           <td align="center"><button class="btn btn-default btaction" data-id="{{notif.id}}" data-action="status0"><i class="fa fa-check"></i></button></td>
+          <td align="center"><button class="btn btn-danger btaction" data-id="{{notif.id}}" data-action="delete"><i class="fa fa-trash-o"></i></button></td>
         </tr>
         {% endif %}
         {% endfor %}

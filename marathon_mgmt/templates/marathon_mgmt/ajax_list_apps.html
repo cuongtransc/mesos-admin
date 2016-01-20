@@ -8,6 +8,7 @@
                 <th style="text-align:center">Start/Stop</th>
                 <th style="text-align:center">Restart</th>
                 <th style="text-align:center">Scale</th>
+                <th style="text-align:center">Update</th>
                 <th style="text-align:center">Destroy</th>
             </tr>
         </thead>
@@ -27,9 +28,12 @@
 
               <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{app.tag_id }}" onclick="stop_refresh()"><i class="fa fa-arrows-h"></i></button></td>
 
+              <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-update-{{app.tag_id }}" onclick="stop_refresh()"><i class="fa fa-pencil-square-o"></i></button></td>
+
+
               <td align="center"><button class="btn btn-danger btaction" data-id="{{app.id}}" data-action="destroy"><i class="fa fa-trash-o"></i></button></td>
 
-                            <!-- Modal -->
+              <!-- Modal scale-->
               <div class="modal fade" id="modal-{{app.tag_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -47,6 +51,38 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Modal update-->
+              <div class="modal fade" id="modal-update-{{app.tag_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button onclick="start_refresh()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Update {{app.id}}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label>Cpus</label>
+                        <input type="text" class="form-control" id="cpus-{{app.tag_id}}" value="{{app.cpus}}">
+                      </div>
+                      <div class="form-group">
+                        <label>Mem</label>
+                        <input type="text" class="form-control" id="mem-{{app.tag_id}}" value="{{app.cpus}}">
+                      </div>
+                      <div class="form-group">
+                        <label>Version</label>
+                        <input type="text" class="form-control" id="version-{{app.tag_id}}" value="{{app.container.docker.image}}">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal" onclick="start_refresh()">Cancel</button>
+                      <button type="button" class="btn btn-info btaction" data-dismiss="modal" data-id="{{app.id}}" data-action="update">Update</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
             </tr>
             {% endfor %}
 
