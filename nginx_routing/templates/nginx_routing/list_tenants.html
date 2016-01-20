@@ -1,0 +1,83 @@
+{% extends 'default/base.html' %}
+{% block title %}Marathon manage{% endblock %}
+{% block heading %}Marathon - List Applications{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+$( document ).ready(function() {
+    $('body').on('click','.btaction',function(){
+      var id = $(this).data('id');
+      var action = $(this).data('action');
+
+      var data = {}
+      data.id = id
+      data.action = action
+
+      $.post("{% url 'marathon_mgmt:send_to_marathon'  %}",
+      data,
+      function(data, status){
+          data = JSON.parse(data);
+          toastr[data.status](data.msg);
+      });
+    });
+
+});
+</script>
+{% endblock %}
+{% block topaction %}
+
+{% endblock %}
+{% block content %}
+<div class="form-group form-inline clearfix" style="padding-right: 1em">
+<form action="#" method="get" class="input-group pull-right">
+  <input type="text" class="form-control" placeholder="Domain name">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button">Filter</button>
+  </span>
+</form >
+</div>
+<div class="table-responsive" id="table-list">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th align="left">ID</th>
+                <th style="text-align:left">Domain name</th>
+                <th style="text-align:right">Group id</th>
+                <th style="text-align:right">Disable</th>
+                <th style="text-align:center">Fixed</th>
+                <th style="text-align:center">Start/Stop</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tenant in tenants %}
+            <tr>
+              <td align="left">{{tenant.id}}</td>
+              <td align="left">{{tenant.domain_name}}</td>
+              <td align="right">
+                <select class="form-control" id="select">
+                {% for group in groups%}
+                  <option value="{{group.id}}" {% if tenant.group_id == group.id %} selected="selected" {% endif %} >{{group.id}}</option>
+                {% endfor %}
+                </select>
+
+              </td>
+              <td align="right">{{tenant.disabled}}</td>
+              {% if tenant.fixed == '1'%}
+              <td align="center"><button class="btn btn-default btaction" data-id="{{tenant.id}}" data-action="fixed0"><i class="fa fa-check"></i></button></td>
+              {% else %}
+              <td align="center"><button class="btn btn-default btaction" data-id="{{tenant.id}}" data-action="fixed1"><i class="fa fa-circle-o"></i></button></td>
+              {% endif %}
+              <td align="center"><button class="btn btn-warning btaction" data-id="{{tenant.id}}" data-action="restart"><i class="fa fa-refresh"></i></button></td>
+
+
+
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
