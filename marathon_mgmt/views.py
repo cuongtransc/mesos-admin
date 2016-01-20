@@ -43,7 +43,7 @@ def new_app(request, type):
             if(type == "app"):
                 mc.create_app_by_json(content)
             elif(type == "group"):
-                mc.create_group(json.loads(content))
+                mc.create_group(content)
             data['result'] = "Success"
         except Exception as e:
             data['result'] = str(e)
