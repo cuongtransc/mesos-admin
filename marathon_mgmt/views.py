@@ -8,9 +8,13 @@ import json
 import html
 import traceback
 from config_template.models import *
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 @csrf_exempt
+@login_required
+@permission_required('auth.can_init_app', raise_exception=True)
 def new_app(request):
     data = {}
     if request.method == 'POST':
@@ -49,6 +53,7 @@ def new_app(request):
     data['templates'] = templates
     return render(request, 'marathon_mgmt/new_app.html', data)
 
+@login_required
 def list_app(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     apps = mc.list_apps()
@@ -58,6 +63,8 @@ def list_app(request):
 
 
 @csrf_exempt
+@permission_required('auth.can_run_app', raise_exception=True)
+@login_required
 def send_to_marathon(request):
     try:
         if request.method == 'POST':
@@ -69,7 +76,10 @@ def send_to_marathon(request):
             elif action == 'start':
                 mc.scale_app(app_id, 1)
             elif action == 'destroy':
-                mc.delete_app(app_id)
+                if request.user.has_perm("auth.can_init_app"):
+                    mc.delete_app(app_id)
+                else:
+                    raise PermissionDenied
             elif action == 'restart':
                 pass
             elif action == 'scale':
@@ -79,6 +89,7 @@ def send_to_marathon(request):
         result = '{"status":"error", "msg": "%(action)s fail: %(error)s" }'%{"action":action, "error": html.escape(str(e))}
     return HttpResponse(result)
 
+@login_required
 def ajax_list_apps(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     apps = mc.list_apps()

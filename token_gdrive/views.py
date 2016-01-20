@@ -3,12 +3,15 @@ from django.http import HttpResponse
 from django.conf import settings
 import subprocess
 from token_gdrive.models import *
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
-
+@login_required
 def index(request):
     return render(request, 'token_gdrive/index.html')
 
+@login_required
 def add_token(request):
     if request.method == 'GET':
         token = request.GET.get('token', None)

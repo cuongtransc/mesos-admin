@@ -64,11 +64,11 @@
 
                 </li>
 
-
+                {% if request.user.is_authenticated %}
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i> {{request.user.first_name}} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -76,11 +76,12 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="/admin/logout/?next=/admin/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
+                {% endif %}
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
@@ -155,6 +156,20 @@
                         <li>
                             <a href="{% url 'token_gdrive:index'  %}"><i class="fa fa-barcode  fa-fw"></i> Token Google Drive</a>
                         </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Nginx routing <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a href="{% url 'config_template:new_template' %}"><i class="fa fa-plus-circle  fa-fw"></i> New template</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'nginx_routing:list_tenants' %}"><i class="fa fa-list  fa-fw"></i> List tenants</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

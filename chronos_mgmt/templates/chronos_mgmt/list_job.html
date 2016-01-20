@@ -58,7 +58,7 @@ $( document ).ready(function() {
                 <th style="text-align:left">Last</th>
                 <th style="text-align:left">Schedule</th>
                 <th style="text-align:center">Run</th>
-                <th style="text-align:center">Details</th>
+                <th style="text-align:center">Destroy</th>
                 <th style="text-align:center">Details</th>
             </tr>
         </thead>
@@ -74,11 +74,11 @@ $( document ).ready(function() {
                 <td align="left"> <span class="label label-success">-</span></td>
               {% endif %}
               <td align="left">{{job.schedule}}</td>
-              <td align="center"><button class="btn btn-warning btaction" data-name="{{job.name}}" data-action="run">Run</button></td>
+              <td align="center"><button class="btn btn-success btaction" data-name="{{job.name}}" data-action="run"><i class="fa fa-play"></i></button></td>
 
-              <td align="center"><button class="btn btn-danger btaction" data-name="{{job.name}}" data-action="destroy">Destroy</button></td>
+              <td align="center"><button class="btn btn-danger btaction" data-name="{{job.name}}" data-action="destroy"><i class="fa fa-trash-o"></i></button></td>
 
-              <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{job.name}}" onclick="stop_refresh()">Details</button></td>
+              <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{job.name}}" onclick="stop_refresh()"><i class="fa fa-info-circle"></i></button></td>
 
                             <!-- Modal -->
               <div class="modal fade" id="modal-{{job.name }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

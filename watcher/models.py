@@ -9,6 +9,10 @@ class Watcher(models.Model):
     created_at = models.DateField(auto_now_add=True)
     class Meta:
         db_table = "watchers"
+        permissions = (
+            ("can_destroy", "Can destroy watcher"),
+            ("can_run", "Can start, stop, restart watcher"),
+        )
 
 class Notification(models.Model):
     id = models.AutoField(primary_key=True)

@@ -6,12 +6,18 @@ from config_template.models import *
 from config_template.utils import *
 import json
 import traceback
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
+@login_required
+@permission_required('config_template.add_template', raise_exception=True)
 def new_template(request):
     return render(request, 'config_template/new_template.html')
 
+@login_required
 @csrf_exempt
+@permission_required('config_template.add_template', raise_exception=True)
 def ajax_new_template(request):
     try:
         template = Template()
@@ -35,6 +41,8 @@ def ajax_new_template(request):
         return HttpResponse("Add new template failed")
 
 @csrf_exempt
+@login_required
+@permission_required('config_template.change_template', raise_exception=True)
 def ajax_edit_template(request):
     try:
         template = Template.objects.get(pk=request.POST.get("id"))
@@ -68,12 +76,15 @@ def ajax_edit_template(request):
         traceback.print_exc()
         return HttpResponse("Edit template failed")
 
+@login_required
 def list_template(request):
     templates = Template.objects.order_by("id").order_by("type")
     data = {}
     data['templates'] = templates
     return render(request, 'config_template/list_template.html',data)
 
+@login_required
+@permission_required('config_template.change_template', raise_exception=True)
 def edit_template(request, template_id):
     template = Template.objects.get(pk=template_id)
     template.content = template.content.replace("\n", "\\n")
@@ -82,6 +93,8 @@ def edit_template(request, template_id):
     data['template'] = template
     return render(request, 'config_template/edit_template.html',data)
 
+@login_required
+@permission_required('config_template.change_template', raise_exception=True)
 def delete_template(request, template_id):
     template = Template.objects.get(pk=template_id)
     template.delete()

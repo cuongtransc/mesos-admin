@@ -3,8 +3,10 @@ from config_template.models import *
 from marathon import MarathonClient
 from django.conf import settings
 import chronos
-
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 # Create your views here.
+@login_required
 def dashboard(request):
     data = {}
     data['total_template'] = Template.objects.count()

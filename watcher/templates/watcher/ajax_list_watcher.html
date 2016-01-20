@@ -14,10 +14,10 @@
           {% if watcher_thread.is_alive %}
             <td align="center"><button class="btn btn-primary btaction" data-name="{{watcher_thread.name}}" data-action="stop">Stop</button></td>
           {% else %}
-            <td align="center"><button class="btn btn-success btaction" data-name="{{watcher_thread.name}}" data-action="start">Start</button></td>
+            <td align="center"><button class="btn btn-success btaction" data-name="{{watcher_thread.name}}" data-action="start"><i class="fa fa-play"></i></button></td>
           {% endif %}
-          <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.name}}" data-action="restart">Restart</button></td>
-          <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.name}}" data-action="destroy">Destroy</button></td>
+          <td align="center"><button class="btn btn-warning btaction" data-name="{{watcher_thread.name}}" data-action="restart"><i class="fa fa-refresh"></i></button></td>
+          <td align="center"><button class="btn btn-danger btaction" data-name="{{watcher_thread.name}}" data-action="destroy"><i class="fa fa-trash-o"></i></button></td>
         </tr>
         {% endfor %}
 

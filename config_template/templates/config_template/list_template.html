@@ -24,8 +24,8 @@
               <td align="left">{{template.id}}</td>
               <td align="left">{{template.name}}</td>
               <td align="left">{{template.type}}</td>
-              <td align="center"><a href="{% url 'config_template:edit_template' template.id %}">Edit</a></td>
-              <td align="center"><a href="{% url 'config_template:delete_template' template.id %}">Delete</a></td>
+              <td align="center"><a class="btn btn-success" href="{% url 'config_template:edit_template' template.id %}"><i class="fa fa-pencil-square-o"></i></a></td>
+              <td align="center"><a class="btn btn-danger" href="{% url 'config_template:delete_template' template.id %}"><i class="fa fa-trash-o"></i></a></td>
             </tr>
             {% endfor %}
 

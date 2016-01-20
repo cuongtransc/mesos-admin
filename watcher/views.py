@@ -8,9 +8,13 @@ import traceback
 import time
 import watcher.models as models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 @csrf_exempt
+@login_required
+@permission_required('watcher.add_watcher', raise_exception=True)
 def new_watcher(request):
     data = {}
     if request.method == 'POST':
@@ -51,6 +55,8 @@ def new_watcher(request):
     return render(request, 'watcher/new_watcher.html', data)
 
 @csrf_exempt
+@login_required
+@permission_required('watcher.can_run', raise_exception=True)
 def watcher_action(request):
     try:
         if request.method == 'POST':
@@ -96,6 +102,7 @@ def watcher_action(request):
         traceback.print_exc()
     return HttpResponse(result)
 
+@login_required
 def list_watcher(request):
     watcher_threads = models.Watcher.objects.all()
     for watcher_thread in watcher_threads:
@@ -107,6 +114,7 @@ def list_watcher(request):
 
     return render(request, 'watcher/list_watcher.html', data)
 
+@login_required
 def ajax_list_watcher(request):
     watcher_threads = models.Watcher.objects.all()
     for watcher_thread in watcher_threads:
@@ -117,6 +125,7 @@ def ajax_list_watcher(request):
     data = {'watcher_threads': watcher_threads}
     return render(request, 'watcher/ajax_list_watcher.html', data)
 
+@login_required
 def ajax_notifications(request):
     notifs = models.Notification.objects.filter(status='0').order_by('-created_at')[:5]
     total = models.Notification.objects.filter(status='0').count()
@@ -125,6 +134,7 @@ def ajax_notifications(request):
     data['total'] = total
     return render(request, 'watcher/ajax_notifycations.html', data)
 
+@login_required
 def list_notifications(request):
 
     notifs_list = models.Notification.objects.order_by('-created_at')
@@ -144,6 +154,7 @@ def list_notifications(request):
     data['notifs'] = notifs
     return render(request, 'watcher/list_notifycations.html', data)
 
+@login_required
 def ajax_list_notifications(request):
 
     notifs_list = models.Notification.objects.order_by('-created_at')
@@ -163,6 +174,7 @@ def ajax_list_notifications(request):
     return render(request, 'watcher/ajax_list_notifycations.html', data)
 
 @csrf_exempt
+@login_required
 def notify_action(request):
     try:
         if request.method == 'POST':

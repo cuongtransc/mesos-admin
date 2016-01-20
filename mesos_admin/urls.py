@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^config-template/', include('config_template.urls', namespace="config_template")),
     url(r'^watcher/', include('watcher.urls', namespace="watcher")),
     url(r'^dashboard/', include('dashboard.urls', namespace="dashboard")),
+    url(r'^nginx-routing/', include('nginx_routing.urls', namespace="nginx_routing")),
 ]
 
 startup.start_watcher()
