@@ -108,7 +108,8 @@
                             <a href="#"><i class="fa fa-dot-circle-o fa-fw"></i> Marathon<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li>
-                                    <a href="{% url 'marathon_mgmt:new_app' %}"> <i class="fa fa-plus-circle  fa-fw"></i> New Application</a>
+                                    <a href="{% url 'marathon_mgmt:new_app' 'app'%}"> <i class="fa fa-plus-circle  fa-fw"></i> New Application</a>
+                                    <a href="{% url 'marathon_mgmt:new_app' 'group'%}"> <i class="fa fa-plus-circle  fa-fw"></i> New Group</a>
                                     <a href="{% url 'marathon_mgmt:list_app' %}"><i class="fa fa-list fa-fw"></i> List Application</a>
                                 </li>
 

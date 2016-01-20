@@ -15,7 +15,7 @@ from django.core.exceptions import PermissionDenied
 @csrf_exempt
 @login_required
 @permission_required('auth.can_init_app', raise_exception=True)
-def new_app(request):
+def new_app(request, type):
     data = {}
     if request.method == 'POST':
         data['msg'] = "Post"
@@ -40,13 +40,20 @@ def new_app(request):
         data['content'] = content
         mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
         try:
-            mc.create_app_by_json(content)
+            if(type == "app"):
+                mc.create_app_by_json(content)
+            elif(type == "group"):
+                mc.create_group(json.loads(content))
             data['result'] = "Success"
         except Exception as e:
             data['result'] = str(e)
 
-
-    templates = Template.objects.filter(type="marathon").all()
+    if(type == "app"):
+        data['type'] = "Application"
+        templates = Template.objects.filter(type="marathon-app").all()
+    elif(type == "group"):
+        data['type'] = "Group"
+        templates = Template.objects.filter(type="marathon-group").all()
     for template in templates:
         template.params = template.param_set.order_by('id')
 
@@ -58,6 +65,8 @@ def list_app(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     apps = mc.list_apps()
     apps = sorted(apps, key=lambda app: app.id)
+    for app in apps:
+        app.tag_id = app.id.replace("/","__")
     data = {'apps': apps}
     data['refresh'] = 3000
     return render(request, 'marathon_mgmt/list_app.html', data)
@@ -95,5 +104,7 @@ def ajax_list_apps(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     apps = mc.list_apps()
     apps = sorted(apps, key=lambda app: app.id)
+    for app in apps:
+        app.tag_id = app.id.replace("/","__")
     data = {'apps': apps}
     return render(request, 'marathon_mgmt/ajax_list_apps.html', data)

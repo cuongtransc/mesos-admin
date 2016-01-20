@@ -32,7 +32,7 @@ $( document ).ready(function() {
     $('body').on('click','.btaction',function(){
       var id = $(this).data('id');
       var action = $(this).data('action');
-      id_ni ="#ni-"+id.substring(1);
+      id_ni ="#ni-"+id.replace(/\//g,"__");
       var data = {}
       data.id = id
       data.action = action
@@ -70,7 +70,7 @@ $( document ).ready(function() {
         </thead>
         <tbody>
             {% for app in apps %}
-            <tr id="app-{{app.id|slice:"1:" }}">
+            <tr id="app-{{app.tag_id }}">
               <td align="left">{{app.id}}</td>
               <td align="right">{{app.cpus}}</td>
               <td align="right">{{app.mem}}</td>
@@ -82,12 +82,12 @@ $( document ).ready(function() {
               {% endif %}
               <td align="center"><button class="btn btn-warning btaction" data-id="{{app.id}}" data-action="restart"><i class="fa fa-refresh"></i></button></td>
 
-              <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{app.id|slice:"1:" }}" onclick="stop_refresh()"><i class="fa fa-arrows-h"></i></button></td>
+              <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{app.tag_id }}" onclick="stop_refresh()"><i class="fa fa-arrows-h"></i></button></td>
 
               <td align="center"><button class="btn btn-danger btaction" data-id="{{app.id}}" data-action="destroy"><i class="fa fa-trash-o"></i></button></td>
 
                             <!-- Modal -->
-              <div class="modal fade" id="modal-{{app.id|slice:"1:" }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal fade" id="modal-{{app.tag_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -95,7 +95,7 @@ $( document ).ready(function() {
                       <h4 class="modal-title" id="myModalLabel">Number instance</h4>
                     </div>
                     <div class="modal-body">
-                      <input type="number" class="form-control" id="ni-{{app.id|slice:"1:" }}" value="{{app.tasks_running}}">
+                      <input type="number" class="form-control" id="ni-{{app.tag_id }}" value="{{app.tasks_running}}">
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal" onclick="start_refresh()">Cancel</button>

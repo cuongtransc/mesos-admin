@@ -104,7 +104,8 @@ $( document ).ready(function() {
 <div class="form-group col-md-4">
   <label for="type">Type</label>
   <select class="form-control" id="type" name="type">
-    <option value="marathon" {% if template.type == "marathon" %} selected {%endif%}>marathon</option>
+    <option value="marathon-app" {% if template.type == "marathon-app" %} selected {%endif%}>marathon-app</option>
+    <option value="marathon-group" {% if template.type == "marathon-group" %} selected {%endif%}>marathon-group</option>
     <option value="chronos" {% if template.type == "chronos" %} selected {%endif%}>chronos</option>
     <option value="watcher" {% if template.type == "watcher" %} selected {%endif%}>watcher</option>
   </select>
