@@ -82,7 +82,7 @@ def send_to_marathon(request):
             app_id = request.POST.get('id', None)
             mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
             if action == 'stop':
-                mc.scale_app(app_id, 0)
+                mc.scale_app(app_id, 0, force=True)
             elif action == 'start':
                 mc.scale_app(app_id, 1)
             elif action == 'destroy':
@@ -91,15 +91,14 @@ def send_to_marathon(request):
                 else:
                     raise PermissionDenied
             elif action == 'restart':
-                pass
+                mc.restart_app(app_id)
             elif action == 'scale':
                 mc.scale_app(app_id, int(request.POST.get('number_instance')))
             elif action == 'update':
                 app = mc.get_app(app_id)
-                app.cpus = int(request.POST.get('cpus'))
-                app.mem = int(request.POST.get('mem'))
+                app.cpus = float(request.POST.get('cpus'))
+                app.mem = float(request.POST.get('mem'))
                 app.container.docker.image = request.POST.get('version')
-                print(app)
                 mc.update_app(app_id, app)
             result = '{"status":"success", "msg": "%(action)s success"}'%{"action":action}
     except Exception as e:
