@@ -35,6 +35,7 @@ $( document ).ready(function() {
       current_params_name.push(param[1]);
       if (params_name_available.indexOf(param[1]) == -1) {
         var new_param = param_node.clone();
+        params_name_available.push(param[1]);
         new_param.find('.param_name').val(param[1]);
         $("#param-wrapper").append(new_param);
       }
