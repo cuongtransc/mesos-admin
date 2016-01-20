@@ -11,6 +11,9 @@ docker-compose up -d mesos-admin
 # execute into container
 docker exec -it mesosadmin_mesos-admin_1 bash
 
+#create superuser
+./manage.py createsuperuser --username=admin --email=joe@example.com
+
 # makemigrations
 ./manage.py makemigrations
 
@@ -29,6 +32,3 @@ http://127.0.0.1:8000/token-gdrive/
 
 # TODO
 1. demo data
-
-
-
