@@ -68,7 +68,6 @@ def list_app(request):
     for app in apps:
         app.tag_id = app.id.replace("/","__")
     data = {'apps': apps}
-    data['refresh'] = 3000
     return render(request, 'marathon_mgmt/list_app.html', data)
 
 
@@ -110,7 +109,14 @@ def ajax_list_apps(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     apps = mc.list_apps()
     apps = sorted(apps, key=lambda app: app.id)
-    for app in apps:
-        app.tag_id = app.id.replace("/","__")
+    filter_name = request.GET.get('filter_name', "")
+    if filter_name != "":
+        for app in apps[:]:
+            app.tag_id = app.id.replace("/","__")
+            if app.id.find(filter_name) == -1:
+                apps.remove(app)
+    else:
+        for app in apps:
+            app.tag_id = app.id.replace("/","__")
     data = {'apps': apps}
     return render(request, 'marathon_mgmt/ajax_list_apps.html', data)
