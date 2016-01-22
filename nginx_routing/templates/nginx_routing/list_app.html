@@ -1,0 +1,112 @@
+{% extends 'default/base.html' %}
+{% block title %}Marathon manage{% endblock %}
+{% block heading %}Marathon - List Applications{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+$( document ).ready(function() {
+    $('body').on('click','.btaction',function(){
+      var id = $(this).data('id');
+      var action = $(this).data('action');
+      var note = $(this)
+      var data = {}
+      data.id = id
+      data.action = action
+
+      $.post("{% url 'nginx_routing:app_action'  %}",
+      data,
+      function(data, status){
+          data = JSON.parse(data);
+          toastr[data.status](data.msg);
+          if(data.status == "success"){
+            a = note.parent().parent().remove()
+
+          }
+      });
+    });
+
+});
+</script>
+{% endblock %}
+{% block topaction %}
+
+{% endblock %}
+{% block content %}
+<div class="form-group form-inline clearfix" style="padding-right: 1em">
+<form action="#" method="get" class="input-group pull-right">
+  <input type="text" class="form-control" placeholder="Domain name">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button">Filter</button>
+  </span>
+</form >
+</div>
+<div class="table-responsive" id="table-list">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th align="left">ID</th>
+                <th style="text-align:left">Domain name</th>
+                <th style="text-align:left">Disabled</th>
+                <th style="text-align:left">Use tenant</th>
+                <th style="text-align:left">Marathon app id</th>
+                <th style="text-align:center">App Tenant DB</th>
+                <th style="text-align:center">Edit</th>
+                <th style="text-align:center">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in apps %}
+            <tr>
+              <td align="left">{{app.id}}</td>
+              <td align="left">{{app.domain_name}}</td>
+              <td align="left">{{app.disabled}}</td>
+              <td align="left">{{app.use_tenant}}</td>
+              <td align="left">{{app.marathon_app_id}}</td>
+              {% if app.app_tenant_db != None %}
+              <td align="center"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#model-{{app.app_tenant_db.id}}">
+                {{app.app_tenant_db.id}}
+              </button></td>
+
+              <!-- Modal -->
+              <div class="modal fade" id="model-{{app.app_tenant_db.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Database details</h4>
+                    </div>
+                    <div class="modal-body">
+                      <dl class="dl-horizontal">
+                        <dt>Host</dt>
+                        <dd> {{app.app_tenant_db.host}}</dd>
+                        <dt>Port</dt>
+                        <dd> {{app.app_tenant_db.port}}</dd>
+                        <dt>Username</dt>
+                        <dd> {{app.app_tenant_db.username}}</dd>
+                        <dt>Password</dt>
+                        <dd> {{app.app_tenant_db.password}}</dd>
+                        <dt>Db name</dt>
+                        <dd> {{app.app_tenant_db.db_name}}</dd>
+                      </dl>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% else %}
+              <td align="center">NULL</td>
+              {% endif %}
+              <td align="center"><a href="{% url 'nginx_routing:edit_app' app.id%}" class="btn btn-success"><i class="fa fa-pencil-square-o"></i> </a></td>
+              <td align="center"><button data-id="{{app.id}}" data-action="delete"  class="btn btn-danger btaction"><i class="fa fa-trash"></i> </button></td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

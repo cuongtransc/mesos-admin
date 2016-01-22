@@ -1,0 +1,173 @@
+{% extends 'default/base.html' %}
+{% load staticfiles %}
+{% block title %}New App Tenant Database{% endblock %}
+{% block heading %}New App Tenant Database{% endblock %}
+{% block script %}
+  <script type="text/javascript">
+
+  $( document ).ready(function() {
+    $('#submit').click(function(){
+      data = $("#mform").serialize();
+      $.post("{% url 'nginx_routing:edit_app' app.id %}",
+      data,
+      function(data, status){
+        data = JSON.parse(data);
+        toastr[data.status](data.msg);
+      });
+    });
+
+    $('#s-use_tenant').change(function(){
+      if( $(this).val() == '0'){
+        $("#db-form").attr("disabled","disabled");
+      } else{
+        $("#db-form").removeAttr("disabled");
+      }
+
+    });
+
+    //SHow password
+    $("#passwordfield").on("keyup",function(){
+    if($(this).val())
+        $(".btn-eye").show();
+    else
+        $(".btn-eye").hide();
+    });
+    $(".btn-eye").mousedown(function(){
+                      $("#passwordfield").attr('type','text');
+                  }).mouseup(function(){
+                  	$("#passwordfield").attr('type','password');
+                  }).mouseout(function(){
+                  	$("#passwordfield").attr('type','password');
+                  });
+    // End show pass
+
+  });
+
+  </script>
+{% endblock %}
+
+{% block content %}
+  <fieldset style="padding:1em" id="mform">
+  <legend>Details:</legend>
+
+  <div class="row">
+    <div class="form-group col-md-3">
+      <label>Domain name</label>
+      <input type="text" name="domain_name" class="form-control" value="{{app.domain_name}}">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Disabled</label>
+      <select class="form-control" name="disabled">
+        <option value="0" {% if app.disabled == '0' %} selected {% endif %}>No</option>
+        <option value="1" {% if app.disabled == '1' %} selected {% endif %}>Yes</option>
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+      <label>Marathon app id</label>
+      <input type="text" name="marathon_app_id" class="form-control" value="{{app.marathon_app_id}}">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-md-3">
+      <label>Use Tenant</label>
+      <select class="form-control" name="use_tenant" id="s-use_tenant">
+        <option value="0" {% if app.use_tenant == '0' %} selected {% endif %}>No</option>
+        <option value="1" {% if app.use_tenant == '1' %} selected {% endif %}>Yes</option>
+      </select>
+    </div>
+  </div>
+{% if app.use_tenant == '0' %}
+  <fieldset style="padding-left:5em" id="db-form" disabled="disabled">
+    <legend>Details Database:</legend>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label>Host</label>
+        <input type="text" name="host" class="form-control">
+      </div>
+      <div class="form-group col-md-3">
+        <label>Port</label>
+        <input type="text" name="port" class="form-control">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label>Dialect</label>
+        <select class="form-control" name="dialect">
+          <option value="postgresql">Postgre</option>
+          <option value="mysql">Mysql</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label>Username</label>
+        <input type="text" name="username" class="form-control">
+      </div>
+      <div class="form-group col-md-3">
+        <label>Password</label>
+        <div class="input-group">
+          <input type="password" name="password"  id="passwordfield" class="form-control">
+          <div class="input-group-addon btn-eye"><i class="fa fa-eye"></i></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label>Db name</label>
+        <input type="text" name="db_name" class="form-control">
+      </div>
+    </div>
+  </fieldset>
+{% else %}
+<fieldset style="padding-left:5em" id="db-form">
+  <legend>Details Database:</legend>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <label>Host</label>
+      <input type="text" name="host" class="form-control" value="{{app.app_tenant_db.host}}">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Port</label>
+      <input type="text" name="port" class="form-control" value="{{app.app_tenant_db.port}}">
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <label>Dialect</label>
+      <select class="form-control" name="dialect">
+        <option value="postgresql" {% if app.app_tenant_db.dialect == 'postgresql' %} selected {% endif %}>Postgre</option>
+        <option value="mysql" {% if app.app_tenant_db.dialect == 'mysql' %} selected {% endif %}>Mysql</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <label>Username</label>
+      <input type="text" name="username" class="form-control" value="{{app.app_tenant_db.username}}">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Password</label>
+      <div class="input-group">
+        <input type="password" name="password"  id="passwordfield" class="form-control" value="{{app.app_tenant_db.password}}">
+        <div class="input-group-addon btn-eye"><i class="fa fa-eye"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <label>Db name</label>
+      <input type="text" name="db_name" class="form-control" value="{{app.app_tenant_db.db_name}}">
+    </div>
+  </div>
+</fieldset>
+{% endif %}
+
+  <div class="row">
+    <div class="form-group col-md-2">
+      <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-primary">
+    </div>
+  </div>
+  </fieldset>
+{% endblock %}

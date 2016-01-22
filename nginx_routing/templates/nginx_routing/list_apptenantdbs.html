@@ -1,0 +1,71 @@
+{% extends 'default/base.html' %}
+{% block title %}Marathon manage{% endblock %}
+{% block heading %}Marathon - List Applications{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+$( document ).ready(function() {
+    $('body').on('click','.btaction',function(){
+      var id = $(this).data('id');
+      var action = $(this).data('action');
+
+      var data = {}
+      data.id = id
+      data.action = action
+
+      $.post("{% url 'nginx_routing:group_action'  %}",
+      data,
+      function(data, status){
+          data = JSON.parse(data);
+          toastr[data.status](data.msg);
+      });
+    });
+
+});
+</script>
+{% endblock %}
+{% block topaction %}
+
+{% endblock %}
+{% block content %}
+<div class="form-group form-inline clearfix" style="padding-right: 1em">
+<form action="#" method="get" class="input-group pull-right">
+  <input type="text" class="form-control" placeholder="Domain name">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button">Filter</button>
+  </span>
+</form >
+</div>
+<div class="table-responsive" id="table-list">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th align="left">ID</th>
+                <th style="text-align:left">Host</th>
+                <th style="text-align:left">Port</th>
+                <th style="text-align:left">Dialect</th>
+                <th style="text-align:left">Username</th>
+                <th style="text-align:left">Password</th>
+                <th style="text-align:left">DB name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for apptenantdb in apptenantdbs %}
+            <tr>
+              <td align="left">{{apptenantdb.id}}</td>
+              <td align="left">{{apptenantdb.host}}</td>
+              <td align="left">{{apptenantdb.port}}</td>
+              <td align="left">{{apptenantdb.dialect}}</td>
+              <td align="left">{{apptenantdb.username}}</td>
+              <td align="left">{{apptenantdb.password}}</td>
+              <td align="left">{{apptenantdb.db_name}}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

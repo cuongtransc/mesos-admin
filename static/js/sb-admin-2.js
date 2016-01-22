@@ -27,9 +27,12 @@ $(function() {
     });
 
     var url = window.location;
+    // var element = $('ul.nav a').filter(function() {
+    //     return this.href == url || url.href.indexOf(this.href) == 0;
+    // }).addClass('active').parent().parent().addClass('in').parent();
     var element = $('ul.nav a').filter(function() {
         return this.href == url || url.href.indexOf(this.href) == 0;
-    }).addClass('active').parent().parent().addClass('in').parent();
+    }).addClass('active').parent().parent().addClass('in').parent().parent().addClass('in');
     if (element.is('li')) {
         element.addClass('active');
     }

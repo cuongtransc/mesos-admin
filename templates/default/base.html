@@ -162,11 +162,25 @@
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Nginx routing <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li>
-                                    <a href="{% url 'config_template:new_template' %}"><i class="fa fa-plus-circle  fa-fw"></i> New template</a>
+                                    <a href="#"> Application<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level collapse">
+                                        <li>
+                                            <a href="{% url 'nginx_routing:new_application' %}"><i class="fa fa-plus-circle  fa-fw"></i>New Application</a>
+                                        </li>
+                                        <li>
+                                          <a href="{% url 'nginx_routing:list_application' %}"><i class="fa fa-list  fa-fw"></i>List Application</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li>
-                                    <a href="{% url 'nginx_routing:list_tenants' %}"><i class="fa fa-list  fa-fw"></i> List tenants</a>
+                                    <a href="#"> App Tenant DB<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level collapse">
+                                        <li>
+                                          <a href="{% url 'nginx_routing:list_apptenantdb' %}"><i class="fa fa-list  fa-fw"></i>List App Tenant DB</a>
+                                        </li>
+                                    </ul>
                                 </li>
+
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
