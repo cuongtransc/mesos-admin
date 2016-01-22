@@ -44,7 +44,7 @@ def new_job(request):
             data['result'] = str(e)
 
 
-    templates = Template.objects.filter(type="chronos").all()
+    templates = Template.objects.filter(type="chronos").order_by('name').all()
     for template in templates:
         template.params = template.param_set.order_by('id')
 

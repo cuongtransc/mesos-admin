@@ -78,7 +78,7 @@ def ajax_edit_template(request):
 
 @login_required
 def list_template(request):
-    templates = Template.objects.order_by("id").order_by("type")
+    templates = Template.objects.order_by('type', 'name')
     data = {}
     data['templates'] = templates
     return render(request, 'config_template/list_template.html',data)
