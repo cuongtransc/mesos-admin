@@ -94,7 +94,7 @@ def edit_template(request, template_id):
     return render(request, 'config_template/edit_template.html',data)
 
 @login_required
-@permission_required('config_template.change_template', raise_exception=True)
+@permission_required('config_template.delete_template', raise_exception=True)
 def delete_template(request, template_id):
     template = Template.objects.get(pk=template_id)
     template.delete()

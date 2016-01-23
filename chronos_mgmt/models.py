@@ -6,6 +6,6 @@ class PermChronos(Permission):
     class Meta:
         proxy = True
         permissions = (
-            ("chronos_can_destroy", "Can destroy job"),
-            ("chronos_can_run", "Can start, stop, restart job"),
+            ("can_init_job", "Can create, delete job"),
+            ("can_run_job", "Can start, stop, job"),
         )

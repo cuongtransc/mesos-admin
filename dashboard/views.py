@@ -10,10 +10,17 @@ from django.core.exceptions import PermissionDenied
 def dashboard(request):
     data = {}
     data['total_template'] = Template.objects.count()
-    mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
-    data['total_app'] = len(mc.list_apps())
-    cclient = chronos.connect('{}:{}'.format(settings.CHRONOS['host'], settings.CHRONOS['port']))
-    jobs = cclient.list()
-    data['total_job'] = len(cclient.list())
+    try:
+        mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
+        data['total_app'] = len(mc.list_apps())
+    except Exception as e:
+        data['total_app'] = []
+    try:
+        cclient = chronos.connect('{}:{}'.format(settings.CHRONOS['host'], settings.CHRONOS['port']))
+        jobs = cclient.list()
+        data['total_job'] = len(cclient.list())
+    except Exception as e:
+        data['total_job'] = []
+
     data['total_watcher'] = len(settings.WATCHER_THREADS)
     return render(request, 'dashboard/dashboard.html',data)

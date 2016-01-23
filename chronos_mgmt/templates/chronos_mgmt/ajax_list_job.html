@@ -23,7 +23,7 @@
               <td align="left">{{job.schedule}}</td>
               <td align="center"><button class="btn btn-success btaction" data-name="{{job.name}}" data-action="run"><i class="fa fa-play"></i></button></td>
 
-              <td align="center"><button class="btn btn-danger btaction" data-name="{{job.name}}" data-action="destroy"><i class="fa fa-trash-o"></i></button></td>
+              <td align="center"><button class="btn btn-danger btaction" data-name="{{job.name}}" data-action="destroy" {% if not perms.auth.can_init_job  %} disabled style="pointer-events: none;" title="Permission Denied" {% endif %}><i class="fa fa-trash-o"></i></button></td>
 
               <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-{{job.name}}" onclick="stop_refresh()"><i class="fa fa-info-circle"></i></button></td>
 

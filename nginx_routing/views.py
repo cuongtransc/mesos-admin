@@ -5,29 +5,20 @@ from django.conf import settings
 from nginx_routing.models import *
 import html
 import json
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
-def list_tenants(request):
-    tenants = Tenant.objects.all()
-    groups = Group.objects.all()
-    data = {}
-    data['tenants'] = tenants
-    data['groups'] = groups
-    return render(request, 'nginx_routing/list_tenants.html', data)
-
+@login_required
 def list_groups(request):
     groups = Group.objects.all()
     data = {}
     data['groups'] = groups
     return render(request, 'nginx_routing/list_groups.html', data)
 
-def group_action(request):
-    groups = Group.objects.all()
-    data = {}
-    data['groups'] = groups
-    return render(request, 'nginx_routing/list_groups.html', data)
 
 #################################################################
+@login_required
 def list_apptenantdb(request):
     apptenantdbs = AppTenantDB.objects.all()
     data = {}
@@ -35,6 +26,8 @@ def list_apptenantdb(request):
     return render(request, 'nginx_routing/list_apptenantdbs.html', data)
 
 @csrf_exempt
+@login_required
+@permission_required('nginx_routing.add_apptenantdb', raise_exception=True)
 def new_apptenantdb(request):
     data = {}
     if request.method == 'POST':
@@ -57,6 +50,8 @@ def new_apptenantdb(request):
         return render(request, 'nginx_routing/new_apptenantdb.html', data)
 ###################################################################
 @csrf_exempt
+@login_required
+@permission_required('nginx_routing.add_app', raise_exception=True)
 def new_application(request):
     data = {}
     if request.method == 'POST':
@@ -88,6 +83,7 @@ def new_application(request):
     else:
         return render(request, 'nginx_routing/new_application.html', data)
 
+@login_required
 def list_app(request):
     apps = App.objects.all()
     data = {}
@@ -95,6 +91,8 @@ def list_app(request):
     return render(request, 'nginx_routing/list_app.html', data)
 
 @csrf_exempt
+@login_required
+@permission_required('nginx_routing.delete_app', raise_exception=True)
 def app_action(request):
     try:
         if request.method == 'POST':
@@ -112,6 +110,8 @@ def app_action(request):
     return HttpResponse(result)
 
 @csrf_exempt
+@login_required
+@permission_required('nginx_routing.change_app', raise_exception=True)
 def edit_app(request, app_id):
     app = App.objects.get(pk=app_id)
     if request.method == 'POST':

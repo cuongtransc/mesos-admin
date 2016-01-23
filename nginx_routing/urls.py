@@ -4,10 +4,8 @@ from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url=reverse_lazy('list_tenants')), name='index'),
-    url(r'^list-tenants$', views.list_tenants, name='list_tenants'),
+    url(r'^$', RedirectView.as_view(url=reverse_lazy('list_application')), name='index'),
     url(r'^list-groups$', views.list_groups, name='list_groups'),
-    url(r'^list-groups-$', views.list_groups, name='group_action'),
     url(r'^new/app-tenant-db$', views.new_apptenantdb, name='new_apptenantdb'),
     url(r'^list/app-tenant-db$', views.list_apptenantdb, name='list_apptenantdb'),
     url(r'^new/application$', views.new_application, name='new_application'),

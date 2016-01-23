@@ -8,10 +8,14 @@ import traceback
 from config_template.models import *
 import chronos
 import dateutil.parser
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 
 
 # Create your views here.
 @csrf_exempt
+@login_required
+@permission_required('auth.can_init_job', raise_exception=True)
 def new_job(request):
     data = {}
     if request.method == 'POST':
@@ -51,6 +55,8 @@ def new_job(request):
     data['templates'] = templates
     return render(request, 'chronos_mgmt/new_job.html', data)
 
+@login_required
+@permission_required('auth.can_run_job', raise_exception=True)
 def list_job(request):
     cclient = chronos.connect('{}:{}'.format(settings.CHRONOS['host'], settings.CHRONOS['port']))
     jobs = cclient.list()
@@ -79,6 +85,8 @@ def list_job(request):
 
 
 @csrf_exempt
+@login_required
+@permission_required('auth.can_run_job', raise_exception=True)
 def send_to_chronos(request):
     try:
         if request.method == 'POST':
@@ -86,7 +94,10 @@ def send_to_chronos(request):
             job_name = request.POST.get('name', None)
             cclient = chronos.connect('{}:{}'.format(settings.CHRONOS['host'], settings.CHRONOS['port']))
             if action == 'destroy':
-                cclient.delete(job_name)
+                if request.user.has_perm("auth.can_init_job"):
+                    cclient.delete(job_name)
+                else:
+                    raise PermissionDenied
             elif action == 'run':
                 cclient.run(job_name)
 
@@ -95,6 +106,8 @@ def send_to_chronos(request):
         result = '{"status":"error", "msg": "%(action)s fail: %(error)s" }'%{"action":action, "error": html.escape(str(e))}
     return HttpResponse(result)
 
+@login_required
+@permission_required('auth.can_run_job', raise_exception=True)
 def ajax_list_job(request):
     cclient = chronos.connect('{}:{}'.format(settings.CHRONOS['host'], settings.CHRONOS['port']))
     jobs = cclient.list()

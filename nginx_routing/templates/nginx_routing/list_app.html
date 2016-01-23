@@ -99,8 +99,8 @@ $( document ).ready(function() {
               {% else %}
               <td align="center">NULL</td>
               {% endif %}
-              <td align="center"><a href="{% url 'nginx_routing:edit_app' app.id%}" class="btn btn-success"><i class="fa fa-pencil-square-o"></i> </a></td>
-              <td align="center"><button data-id="{{app.id}}" data-action="delete"  class="btn btn-danger btaction"><i class="fa fa-trash"></i> </button></td>
+              <td align="center"><a {% if not perms.nginx_routing.change_app  %} disabled style="pointer-events: none;" style="pointer-events: none;" title="Permission Denied" {% endif %} href="{% url 'nginx_routing:edit_app' app.id%}" class="btn btn-success"><i class="fa fa-pencil-square-o"></i> </a></td>
+              <td align="center"><button {% if not perms.nginx_routing.delete_app  %} disabled style="pointer-events: none;" title="Permission Denied" {% endif %} data-id="{{app.id}}" data-action="delete"  class="btn btn-danger btaction"><i class="fa fa-trash"></i> </button></td>
             </tr>
             {% endfor %}
 

@@ -31,7 +31,7 @@
               <td align="center"><button class="btn btn-info" data-toggle="modal" data-target="#modal-update-{{app.tag_id }}" onclick="stop_refresh()"><i class="fa fa-pencil-square-o"></i></button></td>
 
 
-              <td align="center"><button class="btn btn-danger btaction" data-id="{{app.id}}" data-action="destroy"><i class="fa fa-trash-o"></i></button></td>
+              <td align="center"><button {% if not perms.auth.can_init_app  %} disabled style="pointer-events: none;" title="Permission Denied" {% endif %} class="btn btn-danger btaction" data-id="{{app.id}}" data-action="destroy"><i class="fa fa-trash-o"></i></button></td>
 
               <!-- Modal scale-->
               <div class="modal fade" id="modal-{{app.tag_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
