@@ -109,8 +109,15 @@
                             <ul class="nav nav-second-level collapse">
                                 <li>
                                     <a href="{% url 'marathon_mgmt:new_app' 'app'%}"> <i class="fa fa-plus-circle  fa-fw"></i> New Application</a>
+                                </li>
+                                <li>
                                     <a href="{% url 'marathon_mgmt:new_app' 'group'%}"> <i class="fa fa-plus-circle  fa-fw"></i> New Group</a>
+                                </li>
+                                <li>
                                     <a href="{% url 'marathon_mgmt:list_app' %}"><i class="fa fa-list fa-fw"></i> List Application</a>
+                                </li>
+                                <li style="display:None">
+                                    <a href="/marathon"></a>
                                 </li>
 
                             </ul>
@@ -122,9 +129,13 @@
                             <ul class="nav nav-second-level collapse">
                                 <li>
                                     <a href="{% url 'chronos_mgmt:new_job' %}"> <i class="fa fa-plus-circle  fa-fw"></i> New Job</a>
+                                </li>
+                                <li>
                                     <a href="{% url 'chronos_mgmt:list_job' %}"><i class="fa fa-list fa-fw"></i> List Job</a>
                                 </li>
-
+                                <li style="display:None">
+                                    <a href="/chronos"></a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
@@ -134,9 +145,14 @@
                             <ul class="nav nav-second-level collapse">
                                 <li>
                                     <a href="{% url 'watcher:new_watcher' %}"> <i class="fa fa-plus-circle  fa-fw"></i> New watcher</a>
+                                </li>
+                                <li>
                                     <a href="{% url 'watcher:list_watcher' %}"><i class="fa fa-list fa-fw"></i> List watcher</a>
                                 </li>
 
+                                <li style="display:None">
+                                    <a href="/watcher"></a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
@@ -149,6 +165,9 @@
                                 </li>
                                 <li>
                                     <a href="{% url 'config_template:list_template' %}"><i class="fa fa-list  fa-fw"></i> List template</a>
+                                </li>
+                                <li style="display:None">
+                                    <a href="/config-template"></a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -180,7 +199,9 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                <li style="display:None">
+                                    <a href="/nginx-routing"></a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
