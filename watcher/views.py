@@ -47,7 +47,7 @@ def new_watcher(request):
             traceback.print_exc()
 
 
-    templates = Template.objects.filter(type="watcher").all()
+    templates = Template.objects.filter(type="watcher").order_by('name').all()
     for template in templates:
         template.params = template.param_set.order_by('id')
 

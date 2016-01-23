@@ -50,10 +50,10 @@ def new_app(request, type):
 
     if(type == "app"):
         data['type'] = "Application"
-        templates = Template.objects.filter(type="marathon-app").all()
+        templates = Template.objects.filter(type="marathon-app").order_by('name').all()
     elif(type == "group"):
         data['type'] = "Group"
-        templates = Template.objects.filter(type="marathon-group").all()
+        templates = Template.objects.filter(type="marathon-group").order_by('name').all()
     for template in templates:
         template.params = template.param_set.order_by('id')
 
