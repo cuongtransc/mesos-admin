@@ -1,0 +1,67 @@
+{% extends 'default/base.html' %}
+{% block title %}Marathon manage{% endblock %}
+{% block heading %}Marathon - List Applications{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+$( document ).ready(function() {
+    $('body').on('click','.btaction',function(){
+      var id = $(this).data('id');
+      var action = $(this).data('action');
+      var note = $(this)
+      var data = {}
+      data.id = id
+      data.action = action
+
+      $.post("{% url 'token_gdrive:credential_action'  %}",
+      data,
+      function(data, status){
+          data = JSON.parse(data);
+          toastr[data.status](data.msg);
+          if(data.status == "success"){
+            a = note.parent().parent().remove()
+          }
+      });
+    });
+
+});
+</script>
+{% endblock %}
+{% block topaction %}
+
+{% endblock %}
+{% block content %}
+<div class="form-group form-inline clearfix" style="padding-right: 1em">
+<form action="#" method="get" class="input-group pull-right">
+  <input type="text" class="form-control" placeholder="Domain name">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button">Filter</button>
+  </span>
+</form >
+</div>
+<div class="table-responsive" id="table-list">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th align="left">ID</th>
+                <th style="text-align:left">Gmail</th>
+                <th style="text-align:left">Credential</th>
+                <th style="text-align:center">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for credential in credentials %}
+            <tr>
+              <td align="left">{{credential.id}}</td>
+              <td align="left">{{credential.gmail}}</td>
+              <td align="left">{{credential.credential}}</td>
+              <td align="center"><button {% if not perms.token_gdrive.delete_credential  %} disabled style="pointer-events: none;" title="Permission Denied" {% endif %} data-id="{{credential.id}}" data-action="delete"  class="btn btn-danger btaction"><i class="fa fa-trash"></i> </button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
