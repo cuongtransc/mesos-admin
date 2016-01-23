@@ -1,5 +1,6 @@
 -e git+https://github.com/tranhuucuong91/marathon-python#egg=marathon-master
 -e git+https://github.com/tranhuucuong91/chronos-python#egg=chronos-master
+-e git+https://github.com/tranhuucuong91/PyDrive.git#egg=PyDrive-master
 django
 psycopg2
 python-dateutil
