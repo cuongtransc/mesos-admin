@@ -107,6 +107,9 @@
                         <li>
                             <a href="/marathon"><i class="fa fa-dot-circle-o fa-fw"></i> Marathon<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
+                                <li style="display:None">
+                                    <a href="/marathon"></a>
+                                </li>
                                 <li>
                                     <a href="{% url 'marathon_mgmt:new_app' 'app'%}"> <i class="fa fa-plus-circle  fa-fw"></i> New Application</a>
                                 </li>
@@ -116,9 +119,6 @@
                                 <li>
                                     <a href="{% url 'marathon_mgmt:list_app' %}"><i class="fa fa-list fa-fw"></i> List Application</a>
                                 </li>
-                                <li style="display:None">
-                                    <a href="/marathon"></a>
-                                </li>
 
                             </ul>
                             <!-- /.nav-second-level -->
@@ -127,14 +127,14 @@
                         <li>
                             <a href="/chronos"><i class="fa fa-calendar fa-fw"></i> Chronos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
+                                <li style="display:None">
+                                    <a href="/chronos"></a>
+                                </li>
                                 <li>
                                     <a href="{% url 'chronos_mgmt:new_job' %}"> <i class="fa fa-plus-circle  fa-fw"></i> New Job</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'chronos_mgmt:list_job' %}"><i class="fa fa-list fa-fw"></i> List Job</a>
-                                </li>
-                                <li style="display:None">
-                                    <a href="/chronos"></a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -143,6 +143,9 @@
                         <li>
                             <a href="/watcher"><i class="fa fa-bell-o fa-fw"></i> Watcher<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
+                                <li style="display:None">
+                                    <a href="/watcher"></a>
+                                </li>
                                 <li>
                                     <a href="{% url 'watcher:new_watcher' %}"> <i class="fa fa-plus-circle  fa-fw"></i> New watcher</a>
                                 </li>
@@ -150,9 +153,6 @@
                                     <a href="{% url 'watcher:list_watcher' %}"><i class="fa fa-list fa-fw"></i> List watcher</a>
                                 </li>
 
-                                <li style="display:None">
-                                    <a href="/watcher"></a>
-                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
@@ -160,14 +160,14 @@
                         <li>
                             <a href="/config-template"><i class="fa fa-files-o fa-fw"></i> Template <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
+                                <li style="display:None">
+                                    <a href="/config-template"></a>
+                                </li>
                                 <li>
                                     <a href="{% url 'config_template:new_template' %}"><i class="fa fa-plus-circle  fa-fw"></i> New template</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'config_template:list_template' %}"><i class="fa fa-list  fa-fw"></i> List template</a>
-                                </li>
-                                <li style="display:None">
-                                    <a href="/config-template"></a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -180,28 +180,29 @@
                         <li>
                             <a href="/nginx_routing"><i class="fa fa-files-o fa-fw"></i> Nginx routing <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
-                                <li>
-                                    <a href="/nginx_routing"> Application<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level collapse">
-                                        <li>
-                                            <a href="{% url 'nginx_routing:new_application' %}"><i class="fa fa-plus-circle  fa-fw"></i>New Application</a>
-                                        </li>
-                                        <li>
-                                          <a href="{% url 'nginx_routing:list_application' %}"><i class="fa fa-list  fa-fw"></i>List Application</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="/nginx_routing"> App Tenant DB<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level collapse">
-                                        <li>
-                                          <a href="{% url 'nginx_routing:list_apptenantdb' %}"><i class="fa fa-list  fa-fw"></i>List App Tenant DB</a>
-                                        </li>
-                                    </ul>
-                                </li>
                                 <li style="display:None">
                                     <a href="/nginx_routing"></a>
                                 </li>
+                                <li>
+                                    <a href="{% url 'nginx_routing:new_application' %}"><i class="fa fa-plus-circle  fa-fw"></i>New Application</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'nginx_routing:list_application' %}"><i class="fa fa-list  fa-fw"></i>List Application</a>
+                                </li>
+
+                                <!--<li>-->
+                                    <!--<a href="/nginx_routing"> Application<span class="fa arrow"></span></a>-->
+                                    <!--<ul class="nav nav-third-level collapse">-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<a href="/nginx_routing"> App Tenant DB<span class="fa arrow"></span></a>-->
+                                    <!--<ul class="nav nav-third-level collapse">-->
+                                        <!--<li>-->
+                                          <!--<a href="{% url 'nginx_routing:list_apptenantdb' %}"><i class="fa fa-list  fa-fw"></i>List App Tenant DB</a>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
