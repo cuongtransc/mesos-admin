@@ -26,13 +26,14 @@
                 $("#submit").click(function(){
                     var token = $("#token-gdrive").val()
                     var gmail = $("#gmail").val()
-                    $.get("add_token",
+                    $.post("{% url 'token_gdrive:add_token'  %}",
                     {
                         "token": token,
                         "gmail": gmail
                     },
                     function(data, status){
-                        toastr["success"]("Add token "+token+" success");
+                      data = JSON.parse(data);
+                      toastr[data.status](data.msg);
                     });
                 });
 

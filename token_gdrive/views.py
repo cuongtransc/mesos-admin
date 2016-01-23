@@ -13,16 +13,22 @@ def index(request):
     return render(request, 'token_gdrive/index.html')
 
 @login_required
+@csrf_exempt
 def add_token(request):
-    if request.method == 'GET':
-        token = request.GET.get('token', None)
-        process = subprocess.Popen(['python2', "{}/gdrive.py".format(settings.DIR_GDRIVE_AUTH), token], cwd=settings.DIR_GDRIVE_AUTH, stdout=subprocess.PIPE)
-        out, err = process.communicate()
-        credential = Credentials()
-        credential.credential = out.decode().split("\n")[1]
-        credential.gmail = request.GET.get('gmail', None)
-        credential.save()
-        return HttpResponse(out.decode().split("\n")[1])
+    if request.method == 'POST':
+        try:
+            token = request.POST.get('token', None)
+            process = subprocess.Popen(['python2', "{}/gdrive.py".format(settings.DIR_GDRIVE_AUTH), token], cwd=settings.DIR_GDRIVE_AUTH, stdout=subprocess.PIPE)
+            out, err = process.communicate()
+            credential = Credentials()
+            credential.credential = out.decode().split("\n")[1]
+            credential.gmail = request.POST.get('gmail', None)
+            credential.save()
+            result = '{"status": "success", "msg": "Add token success"}'
+            return HttpResponse(result)
+        except Exception as e:
+            result = '{"status": "error", "msg": "Error: %s "}'% str(e).replace("\n", " ").replace('"', '\\"')
+            return HttpResponse(result)
     else:
         return HttpResponse("no sp")
 
