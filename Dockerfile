@@ -17,8 +17,12 @@ RUN apt-get update -qq
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip build-essential python3-dev
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git libpq-dev
 
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python-pip
+
 # clear apt-cacher-ng proxy
 RUN rm -f /etc/apt/apt.conf.d/01proxy
+
+RUN pip install -e git+https://github.com/tranhuucuong91/PyDrive.git#egg=PyDrive-master
 
 COPY requirements.txt /mesos-admin/requirements.txt
 RUN pip3 install -r /mesos-admin/requirements.txt
