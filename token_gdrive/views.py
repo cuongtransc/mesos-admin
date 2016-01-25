@@ -25,12 +25,14 @@ def add_token(request):
             credential.gmail = request.POST.get('gmail', None)
             credential.save()
             result = '{"status": "success", "msg": "Add token success"}'
-            return HttpResponse(result)
+        except IndexError as e:
+            result = '{"status": "error", "msg": "Error: %s "}' % ('OAuth2 code exchange fail')
         except Exception as e:
             result = '{"status": "error", "msg": "Error: %s "}'% str(e).replace("\n", " ").replace('"', '\\"')
-            return HttpResponse(result)
     else:
-        return HttpResponse("no sp")
+        result = 'no sp'
+
+    return HttpResponse(result)
 
 @login_required
 def list_token(request):
