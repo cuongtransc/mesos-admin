@@ -15,7 +15,6 @@ function start_refresh() {
 }
 
 function refreshing() {
-  data = {"filter_name": $("#filter_name").val()}
   $.get("{% url 'marathon_mgmt:ajax_list_deployments'  %}",
   data,
   function(data, status){
@@ -40,23 +39,9 @@ $( document ).ready(function() {
     $('body').on('click','.btaction',function(){
       var id = $(this).data('id');
       var action = $(this).data('action');
-      id_ni ="#ni-"+id.replace(/\//g,"__");
-      id_cpus ="#cpus-"+id.replace(/\//g,"__");
-      id_mem ="#mem-"+id.replace(/\//g,"__");
-      id_version ="#version-"+id.replace(/\//g,"__");
       var data = {}
       data.id = id
       data.action = action
-      if (action=='scale') {
-        data['number_instance'] = $(id_ni).val()
-        start_refresh()
-      }
-      if (action=='update') {
-        data['cpus'] = $(id_cpus).val()
-        data['mem'] = $(id_mem).val()
-        data['version'] = $(id_version).val()
-        start_refresh()
-      }
       $.post("{% url 'marathon_mgmt:send_to_marathon'  %}",
       data,
       function(data, status){
@@ -71,15 +56,7 @@ $( document ).ready(function() {
 {% endblock %}
 
 {% block topaction %}
-<div class="form-group form-inline clearfix" style="padding-right: 1em">
-<form action="#" method="get" class="input-group pull-right">
-  <input type="text" id="filter_name" class="form-control" placeholder="App name" onkeyup="filter_ajax()">
-  <div class="input-group-addon"><i class="fa fa-search"></i></div>
-  <!-- <span class="input-group-btn">
-    <button class="btn btn-default" type="button">Filter</button>
-  </span> -->
-</form >
-</div>
+
 {% endblock %}
 
 {% block content %}
