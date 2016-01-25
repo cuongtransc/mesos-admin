@@ -19,7 +19,7 @@ postgres:
 
 mesos-admin:
     image: "tranhuucuong91/mesos-admin:0.1"
-    command: bash -c "while true; do date; sleep 1; done"
+    command: bash -c "trap 'echo Exited!; exit;' SIGINT SIGTERM; while true; do date -u '+%Y-%m-%d %H:%M:%S'; sleep 1; done"
     links:
         - postgres:postgres
     ports:
