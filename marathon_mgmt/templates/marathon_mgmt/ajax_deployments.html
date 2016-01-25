@@ -1,0 +1,35 @@
+<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+    <i class="fa fa-tasks fa-fw notify-wapper" >
+      {% if total_depl > 0 %}
+        <span class="badge top-notify">{{total_depl}}</span>
+      {% endif %}
+    </i>
+
+    <i class="fa fa-caret-down"></i>
+</a>
+<ul class="dropdown-menu dropdown-tasks" style="width: 500px;">
+  {% for deployment in deployments %}
+    <li>
+        <a href="#">
+            <div>
+                <p>
+                    <strong>{{deployment.id}}</strong>
+                    <span class="pull-right text-muted">{{deployment.complete}}% Complete</span>
+                </p>
+                <div class="progress progress-striped active">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{deployment.complete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{deployment.complete}}%">
+                        <span class="sr-only">{{deployment.complete}}% Complete (success)</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+    <li class="divider"></li>
+      {% endfor %}
+    <li>
+        <a class="text-center" href="{% url 'marathon_mgmt:deployments' %}">
+            <strong>See all deployments</strong>
+            <i class="fa fa-angle-right"></i>
+        </a>
+    </li>
+</ul>

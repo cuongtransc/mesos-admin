@@ -78,27 +78,29 @@ def send_to_marathon(request):
     try:
         if request.method == 'POST':
             action = request.POST.get('action', None)
-            app_id = request.POST.get('id', None)
+            id = request.POST.get('id', None)
             mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
             if action == 'stop':
-                mc.scale_app(app_id, 0, force=True)
+                mc.scale_app(id, 0, force=True)
             elif action == 'start':
-                mc.scale_app(app_id, 1)
+                mc.scale_app(id, 1)
             elif action == 'destroy':
                 if request.user.has_perm("auth.can_init_app"):
-                    mc.delete_app(app_id)
+                    mc.delete_app(id)
                 else:
                     raise PermissionDenied
             elif action == 'restart':
-                mc.restart_app(app_id)
+                mc.restart_app(id)
             elif action == 'scale':
-                mc.scale_app(app_id, int(request.POST.get('number_instance')))
+                mc.scale_app(id, int(request.POST.get('number_instance')))
             elif action == 'update':
-                app = mc.get_app(app_id)
+                app = mc.get_app(id)
                 app.cpus = float(request.POST.get('cpus'))
                 app.mem = float(request.POST.get('mem'))
                 app.container.docker.image = request.POST.get('version')
-                mc.update_app(app_id, app)
+                mc.update_app(id, app)
+            elif action  == "stop-deployment":
+                mc.delete_deployment(id)
             result = '{"status":"success", "msg": "%(action)s success"}'%{"action":action}
     except Exception as e:
         result = '{"status":"error", "msg": "%(action)s fail: %(error)s" }'%{"action":action, "error": html.escape(str(e))}
@@ -120,3 +122,28 @@ def ajax_list_apps(request):
             app.tag_id = app.id.replace("/","__")
     data = {'apps': apps}
     return render(request, 'marathon_mgmt/ajax_list_apps.html', data)
+
+def ajax_deployments(request):
+    mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
+    deployments = mc.list_deployments()
+    data = {}
+    for deployment in deployments:
+        deployment.complete = (deployment.current_step-1) * 100 / deployment.total_steps
+
+    data['deployments'] = deployments
+    data['total_depl'] = len(deployments)
+    return render(request, 'marathon_mgmt/ajax_deployments.html', data)
+
+def deployments(request):
+    mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
+    deployments = mc.list_deployments()
+    data = {}
+    data['deployments'] = deployments
+    return render(request, 'marathon_mgmt/deployments.html', data)
+
+def ajax_list_deployments(request):
+    mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
+    deployments = mc.list_deployments()
+    data = {}
+    data['deployments'] = deployments
+    return render(request, 'marathon_mgmt/ajax_list_deployments.html', data)

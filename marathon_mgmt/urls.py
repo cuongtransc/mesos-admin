@@ -9,4 +9,7 @@ urlpatterns = [
     url(r'^new/(?P<type>\w+)$', views.new_app, name='new_app'),
     url(r'^send-to-marathon$', views.send_to_marathon, name='send_to_marathon'),
     url(r'^ajax-list-apps$', views.ajax_list_apps, name='ajax_list_apps'),
+    url(r'^ajax-deployments$', views.ajax_deployments, name='ajax_deployments'),
+    url(r'^ajax-list-deployments$', views.ajax_list_deployments, name='ajax_list_deployments'),
+    url(r'^deployments$', views.deployments, name='deployments'),
 ]

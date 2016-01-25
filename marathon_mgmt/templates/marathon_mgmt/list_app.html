@@ -62,6 +62,8 @@ $( document ).ready(function() {
       function(data, status){
           data = JSON.parse(data);
           toastr[data.status](data.msg);
+          refreshing();
+
       });
     });
 

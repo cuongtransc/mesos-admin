@@ -1,0 +1,121 @@
+{% extends 'default/base.html' %}
+{% block title %}Marathon manage{% endblock %}
+{% block heading %}Marathon - List Deployments{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+interval = 3000
+
+refresher = setInterval(refreshing,interval);
+/** Function to refresh the page at specified interval. **/
+function start_refresh() {
+    clearInterval(refresher);
+    refresher = setInterval(refreshing,interval);
+}
+
+function refreshing() {
+  data = {"filter_name": $("#filter_name").val()}
+  $.get("{% url 'marathon_mgmt:ajax_list_deployments'  %}",
+  data,
+  function(data, status){
+      $("#table-list").html(data)
+  });
+}
+
+/** Function to stop refreshing the page. **/
+function stop_refresh() {
+    clearInterval(refresher);
+}
+
+var filter;
+function filter_ajax() {
+  clearTimeout(filter)
+  filter = setTimeout(refreshing, 200)
+}
+
+$( document ).ready(function() {
+
+
+    $('body').on('click','.btaction',function(){
+      var id = $(this).data('id');
+      var action = $(this).data('action');
+      id_ni ="#ni-"+id.replace(/\//g,"__");
+      id_cpus ="#cpus-"+id.replace(/\//g,"__");
+      id_mem ="#mem-"+id.replace(/\//g,"__");
+      id_version ="#version-"+id.replace(/\//g,"__");
+      var data = {}
+      data.id = id
+      data.action = action
+      if (action=='scale') {
+        data['number_instance'] = $(id_ni).val()
+        start_refresh()
+      }
+      if (action=='update') {
+        data['cpus'] = $(id_cpus).val()
+        data['mem'] = $(id_mem).val()
+        data['version'] = $(id_version).val()
+        start_refresh()
+      }
+      $.post("{% url 'marathon_mgmt:send_to_marathon'  %}",
+      data,
+      function(data, status){
+          data = JSON.parse(data);
+          toastr[data.status](data.msg);
+          refreshing()
+      });
+    });
+
+});
+</script>
+{% endblock %}
+
+{% block topaction %}
+<div class="form-group form-inline clearfix" style="padding-right: 1em">
+<form action="#" method="get" class="input-group pull-right">
+  <input type="text" id="filter_name" class="form-control" placeholder="App name" onkeyup="filter_ajax()">
+  <div class="input-group-addon"><i class="fa fa-search"></i></div>
+  <!-- <span class="input-group-btn">
+    <button class="btn btn-default" type="button">Filter</button>
+  </span> -->
+</form >
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="table-responsive" id="table-list">
+  <table class="table table-striped table-hover">
+      <thead>
+          <tr>
+              <th align="left">Deployment ID</th>
+              <th style="text-align:left">Affected Applications</th>
+              <th style="text-align:left">Action</th>
+              <th style="text-align:center">Progress	</th>
+              <th style="text-align:center">Stop</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for deployment in deployments %}
+          <tr>
+            <td align="left">{{deployment.id}}</td>
+            <td align="left">
+              {% for current_action in deployment.current_actions %}
+                <p>{{current_action.app}}</p>
+              {% endfor %}
+            </td>
+            <td align="left">
+              {% for current_action in deployment.current_actions %}
+                <p>{{current_action.action}}</p>
+              {% endfor %}
+            </td>
+            <td align="center">{{deployment.current_step}}/{{deployment.total_steps}}</td>
+            <td align="center"><button class="btn btn-warning btaction" data-id="{{deployment.id}}" data-action="stop-deployment"><i class="fa fa-stop"></i></button></td>
+          </tr>
+          {% endfor %}
+
+      </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
