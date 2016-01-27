@@ -149,6 +149,6 @@ def edit_app(request, app_id):
 @csrf_exempt
 @login_required
 def list_domain(request):
-    domains = Domain.objects.all()
+    domains = Domain.objects.all().order_by('app_id', 'group_id')
     data = {"domains": domains}
     return render(request, 'nginx_routing/list_domain.html', data)
