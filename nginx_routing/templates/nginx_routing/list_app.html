@@ -62,7 +62,7 @@ $( document ).ready(function() {
               <td align="left">{{app.domain_name}}</td>
               <td align="left">{{app.disabled}}</td>
               <td align="left">{{app.use_tenant}}</td>
-              <td align="left">{{app.marathon_app_id}}</td>
+              <td align="left">{{app.marathon_app_name}}</td>
               {% if app.app_tenant_db != None %}
               <td align="center"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#model-{{app.app_tenant_db.id}}">
                 {{app.app_tenant_db.id}}

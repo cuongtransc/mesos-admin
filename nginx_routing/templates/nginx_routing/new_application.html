@@ -1,7 +1,7 @@
 {% extends 'default/base.html' %}
 {% load staticfiles %}
-{% block title %}New App Tenant Database{% endblock %}
-{% block heading %}New App Tenant Database{% endblock %}
+{% block title %}New Application{% endblock %}
+{% block heading %}New Application{% endblock %}
 {% block script %}
   <script type="text/javascript">
 
@@ -30,7 +30,7 @@
 {% endblock %}
 
 {% block content %}
-  <fieldset style="padding:1em" id="mform">
+  <fieldset style="padding:1em;" id="mform">
   <legend>Details:</legend>
 
   <div class="row">
@@ -46,7 +46,7 @@
       </select>
     </div>
     <div class="form-group col-md-3">
-      <label>Marathon app id</label>
+      <label>Marathon application name</label>
       <input type="text" name="marathon_app_id" class="form-control">
     </div>
   </div>

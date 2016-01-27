@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^list/application$', views.list_app, name='list_application'),
     url(r'^action/application/$', views.app_action, name='app_action'),
     url(r'^edit/application/(?P<app_id>\d+)$', views.edit_app, name='edit_app'),
+    url(r'^list/domain$', views.list_domain, name='list_domain'),
 ]

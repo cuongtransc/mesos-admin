@@ -60,7 +60,7 @@ def new_application(request):
             app.domain_name = request.POST.get("domain_name")
             app.disabled = request.POST.get("disabled")
             app.use_tenant = request.POST.get("use_tenant")
-            app.marathon_app_id = request.POST.get("marathon_app_id")
+            app.marathon_app_name = request.POST.get("marathon_app_id")
             if (request.POST.get("use_tenant")=='1'):
                 apptdb = AppTenantDB()
                 apptdb.host = request.POST.get("host")
@@ -119,7 +119,7 @@ def edit_app(request, app_id):
             app.domain_name = request.POST.get("domain_name")
             app.disabled = request.POST.get("disabled")
             app.use_tenant = request.POST.get("use_tenant")
-            app.marathon_app_id = request.POST.get("marathon_app_id")
+            app.marathon_app_name = request.POST.get("marathon_app_id")
             if (request.POST.get("use_tenant")=='1'):
                 apptdb = app.app_tenant_db
                 if apptdb == None:
@@ -145,3 +145,10 @@ def edit_app(request, app_id):
             return HttpResponse(result)
     data = {"app": app}
     return render(request, 'nginx_routing/edit_application.html', data)
+
+@csrf_exempt
+@login_required
+def list_domain(request):
+    domains = Domain.objects.all()
+    data = {"domains": domains}
+    return render(request, 'nginx_routing/list_domain.html', data)
