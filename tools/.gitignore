@@ -1,0 +1,6 @@
+logs/*.log*
+postgres_dump/*.backup
+
+# ignore postgres authentication
+env_postgres_auth.sh
+
