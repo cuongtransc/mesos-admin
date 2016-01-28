@@ -31,4 +31,4 @@ urlpatterns = [
     url(r'^nginx-routing/', include('nginx_routing.urls', namespace="nginx_routing")),
 ]
 
-startup.start_watcher()
+# startup.start_watcher()
