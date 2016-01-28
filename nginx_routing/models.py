@@ -14,7 +14,7 @@ class AppTenantDB(models.Model):
 
 class App(models.Model):
     id = models.AutoField(primary_key=True)
-    domain_name = models.CharField(max_length=200)
+    domain_name = models.CharField(max_length=200, unique=True)
     disabled = models.CharField(max_length=1, null=True)
     use_tenant = models.CharField(max_length=200)
     marathon_app_name = models.CharField(max_length=200)
