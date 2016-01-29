@@ -122,7 +122,7 @@ def ajax_list_apps(request):
             app.tag_id = app.id.replace("/","__")
     data = {'apps': apps}
     return render(request, 'marathon_mgmt/ajax_list_apps.html', data)
-
+@login_required
 def ajax_deployments(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     deployments = mc.list_deployments()
@@ -133,7 +133,7 @@ def ajax_deployments(request):
     data['deployments'] = deployments
     data['total_depl'] = len(deployments)
     return render(request, 'marathon_mgmt/ajax_deployments.html', data)
-
+@login_required
 def deployments(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     deployments = mc.list_deployments()
@@ -141,9 +141,27 @@ def deployments(request):
     data['deployments'] = deployments
     return render(request, 'marathon_mgmt/deployments.html', data)
 
+@login_required
 def ajax_list_deployments(request):
     mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
     deployments = mc.list_deployments()
     data = {}
     data['deployments'] = deployments
     return render(request, 'marathon_mgmt/ajax_list_deployments.html', data)
+
+@login_required
+def ports_used(request):
+    mc = MarathonClient('http://{}:{}'.format(settings.MARATHON['host'], settings.MARATHON['port']))
+    apps = mc.list_apps()
+    used_ports = {}
+    for app in apps:
+        tasks = mc.list_tasks(app.id)
+        for task in tasks:
+            if task.host in used_ports.keys():
+                used_ports[task.host].extend(task.ports)
+            else:
+                used_ports[task.host] = task.ports
+    data = {}
+    data['used_ports'] = used_ports
+    print(used_ports)
+    return render(request, 'marathon_mgmt/ports_used.html', data)

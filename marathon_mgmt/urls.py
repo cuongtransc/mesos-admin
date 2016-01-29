@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^ajax-deployments$', views.ajax_deployments, name='ajax_deployments'),
     url(r'^ajax-list-deployments$', views.ajax_list_deployments, name='ajax_list_deployments'),
     url(r'^deployments$', views.deployments, name='deployments'),
+    url(r'^ports-used$', views.ports_used, name='ports_used'),
 ]

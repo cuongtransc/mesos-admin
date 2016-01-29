@@ -1,0 +1,41 @@
+{% extends 'default/base.html' %}
+{% block title %}Ports used{% endblock %}
+{% block heading %}Marathon - Ports used{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
+{% block topaction %}
+
+{% endblock %}
+
+{% block content %}
+<div class="table-responsive" id="table-list">
+  <table class="table table-striped table-hover">
+      <thead>
+          <tr>
+              <th align="left">Host</th>
+              <th style="text-align:left">Posts Used</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for host, ports in used_ports.items %}
+          <tr>
+            <td align="left">{{host}}</td>
+            <td align="left">
+              {% for port in ports %}
+                <span class="badge">{{port}}</span>
+              {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+
+      </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
