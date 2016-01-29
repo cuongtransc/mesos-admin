@@ -161,7 +161,10 @@ def ports_used(request):
                 used_ports[task.host].extend(task.ports)
             else:
                 used_ports[task.host] = task.ports
+
+    for key in used_ports:
+        used_ports[key] = sorted(used_ports[key])
+
     data = {}
     data['used_ports'] = used_ports
-    print(used_ports)
     return render(request, 'marathon_mgmt/ports_used.html', data)
