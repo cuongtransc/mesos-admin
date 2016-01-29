@@ -10,7 +10,7 @@ PG_CONTAINER_NAME=${PROJECT_NAME}_postgres_1
 source ${BASE_DIR}/env_postgres_auth.sh
 
 if [ -z "$1" ]; then
-    echo "Usage: ./postgres_backup.sh file_backup"
+    echo "Usage: ./postgres_backup.sh file_backup [db-name]"
     exit 1
 fi
 
